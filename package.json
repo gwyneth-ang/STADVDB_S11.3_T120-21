@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/gwyneth-ang/STADVDB-S11-3#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.6",
+    "hbs": "^4.1.1",
+    "path": "^0.12.7"
   }
 }
