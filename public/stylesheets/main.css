@@ -1,5 +1,8 @@
-html {
-    font-weight: 100px;
-    font-size: 50px;
-    color: red;
+.main-container.row {
+    background-image: url("/stylesheets/images/head.jpg");
+    background-size: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 900px;
 }
