@@ -1,8 +1,132 @@
-.main-container.row {
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+body {
+    background-color: black;
+}
+
+.container.header {
+    margin: 0px;
+}
+
+.main-container {
     background-image: url("/images/head.jpg");
     background-size: auto;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    height: 900px;
+    height: 800px;
+    min-width: 1024px;
+    width: 1400px;
+}
+
+.centered h1,
+h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-style: normal;
+    font-weight: normal;
+    text-align: center;
+    letter-spacing: 0.1em;
+    color: #FFFFFF;
+}
+
+.centered h1 {
+    font-size: 144px;
+    padding-top: 123px;
+    margin-bottom: 0px;
+}
+
+.centered h3 {
+    font-size: 48px;
+    margin-top: -30px;
+    margin-bottom: 50px;
+}
+
+form .form-row .form-group input {
+    background-color: rgba(250, 241, 241, 0.53);
+    border-radius: 50px;
+    width: 780px;
+    height: 54px;
+    margin-left: 200px;
+    padding-left: 20px;
+    font-family: 'Fjalla One', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    color: #363333;
+}
+
+form .form-row .form-group select {
+    background-color: rgba(250, 241, 241, 0.53);
+    box-sizing: border-box;
+    border-radius: 10px;
+    width: 280px;
+    height: 204px;
+    margin-left: 70px;
+    margin-top: 5px;
+}
+
+.form-group.col-md-8 input:hover {
+    border: 2px solid #D7D0D0;
+    box-shadow: 0 0 0 1px #D7D0D0;
+}
+
+.form-group.col-md-4 select:hover {
+    border: 2px solid #D7D0D0;
+    box-shadow: 0 0 0 1px #D7D0D0;
+}
+
+.container.header-page2 .centered h1 {
+    font-family: "Bebas Neue";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 100px;
+    line-height: 120px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    color: #FFFFFF;
+}
+
+.container.lists {
+    margin-left: -40px;
+}
+
+.container.input-list .row h2 {
+    font-family: 'Fjalla One', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 60px;
+    line-height: 75px;
+    letter-spacing: 0.1em;
+    color: #D7D0D0;
+}
+
+.container.input-list .row .col-lg-9 h2 {
+    margin-left: -20px;
+}
+
+.container.input-list .row .col-lg-3 h2 {
+    margin-right: -50px;
+}
+
+.container.input-list .row.text-left h3 {
+    font-family: 'Fjalla One', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 31px;
+    letter-spacing: 0.1em;
+    color: #D7D0D0;
+}
+
+.container.input-list hr {
+    margin-top: 40px;
+    border: 3px solid #D7D0D0;
+    width: 110%;
+    align-self: center;
+    margin-left: -30px;
+}
+
+.container.input-list .centered {
+    margin-top: 60px;
+    color: #D7D0D0;
 }

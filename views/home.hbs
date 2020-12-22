@@ -6,20 +6,294 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.0.0/css/font-awesome.min.css">
     <!-- Custom Styles -->
     <link href="/stylesheets/main.css" rel="stylesheet">
     <title>Pelicula</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="main-container row"> 
-            <p> Test </p>
-            <br><br>
-            <br>
+    <div class="container header">
+        <div class="main-container"> 
+            <div class="centered">
+                <h1> PELICULA </h1>
+                <h3>MOVIES THAT SUIT YOU</h3>
+            </div>
+            <div class="centered searchbar">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <input type="text" class="form-control" id="search-box" placeholder="Search">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select id="drop-box" class="form-control">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+
+    <div class="container page2"> 
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h1>MOVIES</h1>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Cleopatra</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1911</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Charles L. Gaskill | 100</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama, History</h3>
+                </div>
+                <hr>
+            </div>
+
+            <div class="container input-list">
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>From the Manger to the Cross; or...</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1912</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Sidney Olcott | 60</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Biography, Drama</h3>
+                </div>
+                <hr>
+            </div>
+
+            <div class="container input-list">
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Amore di Madre</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1914</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>D.W. Griffith | 55</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama</h3>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <!--Movies with Metascore-->
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h1>MOVIES</h1>
+                <h3>With Metascore</h3>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Cleopatra</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1911</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Charles L. Gaskill | 100</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama, History</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Metascore: 80</h3>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <!--Production Companies-->
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h1>PRODUCTION COMPANIES</h1>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+                <div class="centered">
+                    <h3>Name of Company</h3>
+                </div>
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Cleopatra</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1911</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Charles L. Gaskill | 100</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama, History</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Metascore: 80</h3>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+                <div class="centered">
+                    <h3>Name of Company</h3>
+                </div>
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Amore di Madre</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1914</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>D.W. Griffith | 55</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama</h3>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <!--Actors-->
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h1>BRUCE LEE: 5</h1>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Cleopatra</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1911</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Charles L. Gaskill | 100</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama, History</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Metascore: 80</h3>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <!--Years with highest and Lowest Rated Films-->
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h1>1911</h1>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+                <div class="centered">
+                    <h3>Highest Rated Films</h3>
+                </div>
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Cleopatra</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1911</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Charles L. Gaskill | 100</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama, History</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Metascore: 80</h3>
+                </div>
+                <hr>
+            </div>
+            <div class="container lists"> 
+                <div class="container input-list">
+                    <div class="centered">
+                        <h3>Lowest Rated Films</h3>
+                    </div>
+                    <div class="row"> 
+                        <div class="col-lg-9 text-left">
+                            <h2>Amore di Madre</h2>
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <h2>1914</h2>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <h3>D.W. Griffith | 55</h3>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Drama</h3>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <!--Best Year of an Actor-->
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h1>BRUCE LEE: 1911</h1>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>Cleopatra</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>1911</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Charles L. Gaskill | 100</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Drama, History</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Metascore: 80</h3>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
