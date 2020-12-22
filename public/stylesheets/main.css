@@ -79,7 +79,7 @@ form .form-row .form-group select {
     font-family: "Bebas Neue";
     font-style: normal;
     font-weight: normal;
-    font-size: 100px;
+    font-size: 80px;
     line-height: 120px;
     text-align: center;
     letter-spacing: 0.1em;
@@ -94,14 +94,15 @@ form .form-row .form-group select {
     font-family: 'Fjalla One', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 60px;
+    font-size: 40px;
     line-height: 75px;
     letter-spacing: 0.1em;
     color: #D7D0D0;
+    margin-bottom: -10px;
 }
 
 .container.input-list .row .col-lg-9 h2 {
-    margin-left: -20px;
+    margin-left: -15px;
 }
 
 .container.input-list .row .col-lg-3 h2 {
@@ -112,7 +113,7 @@ form .form-row .form-group select {
     font-family: 'Fjalla One', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 25px;
+    font-size: 20px;
     line-height: 31px;
     letter-spacing: 0.1em;
     color: #D7D0D0;
