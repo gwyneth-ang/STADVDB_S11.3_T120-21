@@ -72,9 +72,9 @@ db.query(resident, (err, result) => {
 
 
 //set routes
-app.get('/', function(req, res) {
-    res.render('home');
-});
+const searchRouter = require('./routes/searchRouter');
+
+app.use('/', searchRouter);
 
 app.listen(PORT, () => {
     if (process.env.NODE_ENV === 'development')
