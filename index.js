@@ -3,7 +3,6 @@ const express       = require('express');
 const bodyParser    = require('body-parser');
 const hbs           = require('hbs');
 const path          = require('path');
-const session       = require('express-session');
 const mysql         = require('mysql');
 
 require('dotenv').config()
@@ -39,11 +38,6 @@ app.use(bodyParser.urlencoded({
     limit: '5mb',
     parameterLimit: 100000,
     extended: true,
-}));
-app.use(session({
-    resave: false,
-    saveUninitialized: false,
-    secret: 'secret'
 }));
 
 //connect to mysql
