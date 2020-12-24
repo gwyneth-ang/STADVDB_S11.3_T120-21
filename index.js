@@ -4,6 +4,7 @@ const bodyParser    = require('body-parser');
 const hbs           = require('hbs');
 const path          = require('path');
 const session       = require('express-session');
+const mysql         = require('mysql');
 
 require('dotenv').config()
 
@@ -44,6 +45,37 @@ app.use(session({
     saveUninitialized: false,
     secret: 'secret'
 }));
+
+//connect to mysql
+/*const db = mysql.createConnection({
+    host : 'localhost',
+    user: "root",
+    password: 'password',
+    database: 'imdb movies extensive db',
+    port: 3306
+});
+
+global.db = db;
+
+db.connect((err) => {
+    if(err){
+        // console.log("Here");
+        throw err;
+    }
+    else {
+        console.log('Connected to database');
+    }
+});*/
+
+//sample query
+/*let resident = "SELECT r.ResidentID FROM Resident r JOIN User u ON u.UserID = r.UserID WHERE u.UserID =" + req.session.userID.userID +";";
+db.query(resident, (err, result) => {
+    if (result.length > 0)
+        res.redirect('/residentHome');
+    else
+        res.redirect('/login');
+    });*/
+
 
 //set routes
 app.get('/', function(req, res) {
