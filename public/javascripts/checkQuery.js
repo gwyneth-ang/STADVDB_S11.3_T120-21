@@ -10,46 +10,25 @@ $(document).ready(function() {
         $("#search-box"). val("") 
 
         selectValue = $("#drop-box").val();
-    //     searchInput = $("#search-box").val();
-    
-    //     console.log(searchInput);
+
         if (selectValue === '2') {
-    //         $(".loading").show();
-    //         selectedTwo();
             // disable searchbar
             $("#search-box").prop( "disabled", true );;
         }
-    //     else if (selectValue === '5') {
-    //         $(".loading").show();
-    //         selectedFive();
-    //     }
     });
 
     $('#search-box').on('keyup', function (e) {
         if (e.key === "Enter") {
             $("#searchBtn").click();
-        }
-    //     let timeout = null
-
-    //     clearTimeout(timeout)
-    //     timeout = setTimeout(function() { 
-    //         selectValue = $("#drop-box").val();
-    //         searchInput = $("#search-box").val();
-            
-    //         if (selectValue === '5') {
-    //             $(".loading").show();
-    //             selectedFive();
-    //         }
-    //         else {
-    //             console.log('nothing is selected');
-    //         }       
-            
-    //     }, 3000);       
+        }  
     }),
 
     $('#searchBtn').on('click', function (e) {
         selectValue = $("#drop-box").val();
         searchInput = $("#search-box").val();
+
+        hideAll();
+
         if (selectValue === '2') {
             $(".loading").show();
             selectedTwo();
@@ -62,12 +41,16 @@ $(document).ready(function() {
 
 });
 
+function hideAll(){
+    $("#years-rating").hide();
+    $("#universally-acclaimed").hide();
+    //TODO: add others
+}
+
 function selectedTwo(){
     scrollToLoading();
     $.post('/secondQuery', resp => {
-        console.log(resp);
-        //hide all others
-        $("#years-rating").hide();
+        // console.log(resp);
         $("#universally-acclaimed").html(resp);
         $("#universally-acclaimed").show();
         $(".loading").hide();
@@ -78,9 +61,7 @@ function selectedTwo(){
 function selectedFive(){
     scrollToLoading();
     $.post('/fifthQuery', { searchInput: searchInput }, resp => {
-        console.log(resp);
-        //hide all others
-        $("#universally-acclaimed").hide();
+        // console.log(resp);
         $("#years-rating").html(resp);
         $("#years-rating").show();
         //in case none found
