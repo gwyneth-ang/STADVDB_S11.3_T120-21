@@ -9,7 +9,7 @@ const searchController = {
             WHERE metascore >= 81
             ORDER BY metascore DESC;`;
         db.query(secondquery, (err, result) => {
-            return res.render('_partials/universally_acclaimed', {res: result}, function(err, partial){
+            return res.render('_partials/universally_acclaimed', { res: result }, function(err, partial){
                 res.send(partial);
             });
         });
@@ -23,7 +23,7 @@ const searchController = {
         console.log(searchInput);
 
         let fifthQueryHigh = 
-            `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'') AS job, T1.Ratings
+            `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
             FROM MOVIES m1, RATINGS r1, TITLE_PRINCIPALS tp1,
                 ( SELECT m2.year, 
                     MAX(r2.weighted_average_vote) AS 'Ratings'
@@ -41,7 +41,7 @@ const searchController = {
             `;
 
         let fifthQueryLow = 
-            `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'') AS job, T1.Ratings
+            `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
             FROM MOVIES m1, RATINGS r1, TITLE_PRINCIPALS tp1,
                 ( SELECT m2.year, 
                     MIN(r2.weighted_average_vote) AS 'Ratings'
@@ -64,13 +64,13 @@ const searchController = {
 
             db.query(fifthQueryLow, (err, lowResult) => {
                 if (err) throw err;
-                    if (highResult.length == 0){
+                    if (highResult.length === 0 && lowResult.length === 0){
                         result = "None found: Please search again";
                         return res.render('_partials/none_found', {res: result}, function(err, partial){
                             res.send(partial);
                         });
                     }
-                    return res.render('_partials/years_rating', { yearsHighRate: highResult, yearsLowRate:  lowResult }, function(err, partial){
+                    return res.render('_partials/years_rating', { yearsHighRate: highResult, yearsLowRate: lowResult }, function(err, partial){
                         res.send(partial);
                     });
             })
