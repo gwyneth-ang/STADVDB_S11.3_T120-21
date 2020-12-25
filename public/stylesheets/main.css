@@ -141,3 +141,30 @@ form .form-row .form-group select {
     text-align: center;
     margin-bottom: 5%;
 }
+
+#upBtn {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+#upBtn:hover{
+    background-color: greenyellow;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+/* TODO: add search button design */
+#searchBtn{
+    background-color: white;
+}

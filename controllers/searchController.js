@@ -2,6 +2,20 @@ const searchController = {
 
     viewHomePage: (req, res) => res.render('home'),
 
+    postSearchSecondQuery: (req, res) => {
+        let secondquery = 
+            `SELECT title, year, genre, director, metascore
+            FROM movies
+            WHERE metascore >= 81
+            ORDER BY metascore DESC;`;
+        db.query(secondquery, (err, result) => {
+            return res.render('_partials/universally_acclaimed', {res: result}, function(err, partial){
+                res.send(partial);
+            });
+        });
+    },
+
+
     postSearchFifthQuery: (req, res) => {
         const { searchInput } = req.body;  
         
@@ -47,17 +61,19 @@ const searchController = {
 
         db.query(fifthQueryHigh, (err, highResult) => {
             if (err) throw err;
-            // console.log(highResult);
 
             db.query(fifthQueryLow, (err, lowResult) => {
                 if (err) throw err;
-                    // console.log('here');
-
+                    if (highResult.length == 0){
+                        result = "None found: Please search again";
+                        return res.render('_partials/none_found', {res: result}, function(err, partial){
+                            res.send(partial);
+                        });
+                    }
                     return res.render('_partials/years_rating', { yearsHighRate: highResult, yearsLowRate:  lowResult }, function(err, partial){
                         res.send(partial);
                     });
             })
-            
         });
     }
 

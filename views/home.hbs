@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -33,7 +33,7 @@
                             <select id="drop-box" class="form-control">
                                 <option selected>Choose...</option>
                                 <option value='1'><!-- First Query --></option>
-                                <option value='2'><!-- Second Query --></option>
+                                <option value='2'>Universally Acclaimed Films</option>
                                 <option value='3'><!-- Third Query --></option>
                                 <option value='4'><!-- Fourth Query --></option>
                                 <option value='5'>Best or Worst Film/s In Every/Each Year of Release According To the Ratings</option>
@@ -44,13 +44,18 @@
                     </div>
                 </form>
             </div>
+            <div class ="d-flex justify-content-center">
+                <button id = "searchBtn" class = "btn">Search</button>
+            </div>
+            <!-- Button to go to searchbar-->
+            <button id = "upBtn" class="btn" onclick="document.documentElement.scrollTop = 0;">^</button>
         </div>
     </div>
-
     <div class="loading">
         Loading...
     </div>
-
+    
+    {{> none_found }}
     {{#if movies}}
     <div class="container page2"> 
         <div class="container header-page2"> 
@@ -116,7 +121,9 @@
         {{/if}}
 
         <!--Movies with Metascore-->
-        {{#if moviesMetascore}}
+        {{> universally_acclaimed }} <!-- Partials -->
+        
+        {{!-- {{#if moviesMetascore}}
         <div class="container header-page2"> 
             <div class="centered">
                 <h1>MOVIES</h1>
@@ -145,7 +152,7 @@
                 <hr>
             </div>
         </div>
-        {{/if}}
+        {{/if}} --}}
 
         <!--Production Companies-->
         {{#if productionCompanies}}

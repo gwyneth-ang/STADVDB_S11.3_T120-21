@@ -1,0 +1,33 @@
+<div id="universally-acclaimed">
+    {{#if res}}
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h3>Universally Acclaimed Films</h3>
+            </div>
+        </div>
+        <div class="container lists"> 
+            <div class="container input-list">
+            {{#each res}} 
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>{{title}}</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>{{year}}</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>Director: {{director}}</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Genre: {{genre}}</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>Metascore: {{metascore}}</h3>
+                </div>
+                <hr>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</div>
