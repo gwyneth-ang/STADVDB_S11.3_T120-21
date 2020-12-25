@@ -87,7 +87,7 @@ form .form-row .form-group select {
 }
 
 .container.lists {
-    margin-left: -40px;
+    /* margin-right: 100px; */
 }
 
 .container.input-list .row h2 {
@@ -124,10 +124,20 @@ form .form-row .form-group select {
     border: 3px solid #D7D0D0;
     width: 110%;
     align-self: center;
-    margin-left: -30px;
+    margin-left: -39px;
 }
 
 .container.input-list .centered {
     margin-top: 60px;
     color: #D7D0D0;
+}
+
+.loading-rating {
+    color: #D7D0D0;
+    font-size: 25px;
+    font-family: 'Fjalla One', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 5%;
 }

@@ -1,0 +1,64 @@
+<div id="years-rating">
+    <div class="loading-rating">
+        Loading...
+    </div>
+    {{#if yearsHighRate}}
+    <div class="container lists"> 
+        <div class="container input-list">
+            <div class="centered">
+                <h3>Highest Rated Films</h3>
+            </div>
+            {{#each yearsHighRate}}   
+            <div class="row"> 
+                <div class="col-lg-9 text-left">
+                    <h2>{{title}}</h2>
+                </div>
+                <div class="col-lg-3 text-right">
+                    <h2>{{year}}</h2>
+                </div>
+            </div>
+            <div class="row text-left">
+                <h3>Director: {{director}}</h3>
+            </div>
+            <div class="row text-left">
+                <h3>Other job of director: {{job}}</h3>
+            </div>
+            <div class="row text-left">
+                <h3>Ratings: {{Ratings}}</h3>
+            </div>
+            <hr>
+            {{/each}}
+        </div>
+    </div>  
+    {{/if}}
+
+    {{#if yearsLowRate}}       
+    <div class="container lists"> 
+        <div class="container input-list">
+            <div class="centered">
+                <h3>Lowest Rated Films</h3>
+            </div>
+            {{#each yearsLowRate}}
+            <div class="row"> 
+                <div class="col-lg-9 text-left">
+                    <h2>{{title}}</h2>
+                </div>
+                <div class="col-lg-3 text-right">
+                    <h2>{{year}}</h2>
+                </div>
+            </div>
+            <div class="row text-left">
+                <h3>Director: {{director}}</h3>
+            </div>
+            <div class="row text-left">
+                <h3>Other job of director: {{job}}</h3>
+            </div>
+            <div class="row text-left">
+                <h3>Ratings: {{Ratings}}</h3>
+            </div>
+            <hr>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</div>

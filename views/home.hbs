@@ -8,9 +8,11 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.0.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- Custom Styles -->
     <link href="/stylesheets/main.css" rel="stylesheet">
+    <!-- JQuery --->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <title>Pelicula</title>
 </head>
 
@@ -22,15 +24,21 @@
                 <h3>MOVIES THAT SUIT YOU</h3>
             </div>
             <div class="centered searchbar">
-                <form>
+                <form onsubmit="event.preventDefault();">
                     <div class="form-row">
                         <div class="form-group col-md-8">
-                            <input type="text" class="form-control" id="search-box" placeholder="Search">
+                            <input type="text" class="form-control" id="search-box" placeholder="Search" name="search_input">
                         </div>
                         <div class="form-group col-md-4">
                             <select id="drop-box" class="form-control">
                                 <option selected>Choose...</option>
-                                <option>...</option>
+                                <option value='1'><!-- First Query --></option>
+                                <option value='2'><!-- Second Query --></option>
+                                <option value='3'><!-- Third Query --></option>
+                                <option value='4'><!-- Fourth Query --></option>
+                                <option value='5'>Best or Worst Film/s In Every/Each Year of Release According To the Ratings</option>
+                                <option value='6'><!-- Sixth Query --></option>
+                                <option value='7'><!-- Seventh Query --></option>
                             </select>
                         </div>
                     </div>
@@ -39,6 +47,7 @@
         </div>
     </div>
 
+    {{#if movies}}
     <div class="container page2"> 
         <div class="container header-page2"> 
             <div class="centered">
@@ -100,8 +109,10 @@
                 <hr>
             </div>
         </div>
+        {{/if}}
 
         <!--Movies with Metascore-->
+        {{#if moviesMetascore}}
         <div class="container header-page2"> 
             <div class="centered">
                 <h1>MOVIES</h1>
@@ -130,8 +141,10 @@
                 <hr>
             </div>
         </div>
+        {{/if}}
 
         <!--Production Companies-->
+        {{#if productionCompanies}}
         <div class="container header-page2"> 
             <div class="centered">
                 <h1>PRODUCTION COMPANIES</h1>
@@ -184,7 +197,10 @@
                 <hr>
             </div>
         </div>
+        {{/if}}
+
         <!--Actors-->
+        {{#if actors}}
         <div class="container header-page2"> 
             <div class="centered">
                 <h1>BRUCE LEE: 5</h1>
@@ -212,60 +228,12 @@
                 <hr>
             </div>
         </div>
+        {{/if}}
+
         <!--Years with highest and Lowest Rated Films-->
-        <div class="container header-page2"> 
-            <div class="centered">
-                <h1>1911</h1>
-            </div>
-        </div>
-        <div class="container lists"> 
-            <div class="container input-list">
-                <div class="centered">
-                    <h3>Highest Rated Films</h3>
-                </div>
-                <div class="row"> 
-                    <div class="col-lg-9 text-left">
-                        <h2>Cleopatra</h2>
-                    </div>
-                    <div class="col-lg-3 text-right">
-                        <h2>1911</h2>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <h3>Charles L. Gaskill | 100</h3>
-                </div>
-                <div class="row text-left">
-                    <h3>Drama, History</h3>
-                </div>
-                <div class="row text-left">
-                    <h3>Metascore: 80</h3>
-                </div>
-                <hr>
-            </div>
-            <div class="container lists"> 
-                <div class="container input-list">
-                    <div class="centered">
-                        <h3>Lowest Rated Films</h3>
-                    </div>
-                    <div class="row"> 
-                        <div class="col-lg-9 text-left">
-                            <h2>Amore di Madre</h2>
-                        </div>
-                        <div class="col-lg-3 text-right">
-                            <h2>1914</h2>
-                        </div>
-                    </div>
-                    <div class="row text-left">
-                        <h3>D.W. Griffith | 55</h3>
-                    </div>
-                    <div class="row text-left">
-                        <h3>Drama</h3>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-        </div>
-        <!--Best Year of an Actor-->
+        {{> years_rating }} <!-- Partials -->
+        
+        {{#if bestYearActor}}
         <div class="container header-page2"> 
             <div class="centered">
                 <h1>BRUCE LEE: 1911</h1>
@@ -293,7 +261,8 @@
                 <hr>
             </div>
         </div>
+        {{/if}}
     </div>
-
+    <script type="text/javascript" src="/javascripts/checkQuery.js"></script>
 </body>
 </html>
