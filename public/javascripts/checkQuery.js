@@ -11,6 +11,7 @@ $(document).ready(function() {
         console.log(searchInput);
     
         if (selectValue === '5') {
+            $(".loading-rating").show();
             selectedFive();
         }
     });

@@ -86,9 +86,9 @@ form .form-row .form-group select {
     color: #FFFFFF;
 }
 
-.container.lists {
-    /* margin-right: 100px; */
-}
+/* .container.lists {
+    margin-right: 100px;
+} */
 
 .container.input-list .row h2 {
     font-family: 'Fjalla One', sans-serif;
