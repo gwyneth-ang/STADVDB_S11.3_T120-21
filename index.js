@@ -41,12 +41,12 @@ app.use(bodyParser.urlencoded({
 }));
 
 //connect to mysql
-/*const db = mysql.createConnection({
-    host : 'localhost',
-    user: "root",
-    password: 'password',
-    database: 'imdb movies extensive db',
-    port: 3306
+const db = mysql.createConnection({
+    host :      process.env.DB_HOST,
+    user:       process.env.DB_USER,
+    password:   process.env.DB_PASSWORD,
+    database:   process.env.DB_DATABASE,
+    port:       process.env.DB_PORT
 });
 
 global.db = db;
@@ -59,7 +59,7 @@ db.connect((err) => {
     else {
         console.log('Connected to database');
     }
-});*/
+});
 
 //sample query
 /*let resident = "SELECT r.ResidentID FROM Resident r JOIN User u ON u.UserID = r.UserID WHERE u.UserID =" + req.session.userID.userID +";";
