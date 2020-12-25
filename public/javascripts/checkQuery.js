@@ -17,8 +17,6 @@ $(document).ready(function() {
         }
     });
 
-    
-
     $('#search-box').on('keyup', function (e) {
         let timeout = null
 
@@ -35,14 +33,23 @@ $(document).ready(function() {
                 console.log('nothing is selected');
             }       
             
-        }, 3000)
-
-        
-        
-    })
+        }, 3000);       
+    });
 });
 
 function selectedFive(){
+    scrollToLoading();
+
+    $.post('/fifthQuery', { searchInput: searchInput }, resp => {
+
+        console.log(resp);
+
+        $("#years-rating").html(resp);
+        $(".loading").hide();
+    });
+}
+
+function scrollToLoading(){
     var offset = $(".loading").offset();
 
     offset.left -= 20;
@@ -51,14 +58,6 @@ function selectedFive(){
     $('html, body').animate({
         scrollTop: offset.top,
         scrollLeft: offset.left
-    });
-
-    $.post('/fifthQuery', { searchInput: searchInput }, resp => {
-
-        console.log(resp);
-
-        $("#years-rating").html(resp);
-        $(".loading").hide();
     });
 }
 
