@@ -124,7 +124,43 @@ const searchController = {
                 });
             });
         });
-    }
+    },
+
+    postSearchSeventhQuery: (req, res) => {
+        const { searchInput } = req.body;
+        const name = req.body.searchInput;
+        console.log(name);
+        let seventhquery = 
+            `SELECT name, year, b.best_year_rating, title,  max(weighted_average_vote) as movie_rating, job, characters
+            FROM names n , title_principals t, movies m, ratings r, 
+                (SELECT a.name as best_name, a.year as best_year, 
+            max(year_rating) as best_year_rating
+                FROM ( SELECT name, year, avg(weighted_average_vote) 
+            as year_rating
+                        FROM names n , title_principals t, movies m,
+            ratings r
+                        WHERE n.imdb_name_id = t.imdb_name_id 
+                            AND t.imdb_title_id = m.imdb_title_id 
+                            AND m.imdb_title_id = r.imdb_title_id
+                            AND name LIKE "%${searchInput}%"
+                        GROUP BY name, year
+                        ORDER BY name) a
+                GROUP BY a.name
+                ORDER BY a.name)b
+            WHERE n.imdb_name_id = t.imdb_name_id 
+                AND t.imdb_title_id = m.imdb_title_id 
+            AND m.imdb_title_id = r.imdb_title_id
+                    AND name = best_name 
+                    AND year = best_year
+            GROUP BY name
+            ORDER BY name;`;
+
+        db.query(seventhquery, (err, result) => {
+            return res.render('_partials/best_year', { res: result, search: name}, function(err, partial){
+                res.send(partial);
+            });
+        });
+    },
 
 
 

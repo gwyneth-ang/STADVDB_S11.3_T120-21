@@ -6,5 +6,6 @@ router.get('/', ctrl.viewHomePage);
 router.post('/secondQuery', ctrl.postSearchSecondQuery);
 router.post('/fifthQuery', ctrl.postSearchFifthQuery);
 router.post('/sixthQuery', ctrl.postSearchSixthQuery);
+router.post('/seventhQuery', ctrl.postSearchSeventhQuery);
 
 module.exports = router;

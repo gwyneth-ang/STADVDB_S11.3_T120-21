@@ -185,3 +185,13 @@ html {
     color: rgba(250, 241, 241, 0.53) !important;
     border: 1px solid #dee2e6;
 }
+
+#bestYearName{
+    font-family: 'Bebas Neue', cursive;
+    font-style: normal;
+    font-weight: normal;
+    text-align: center;
+    letter-spacing: 0.1em;
+    color: #FFFFFF;
+    font-size: 70px;
+}

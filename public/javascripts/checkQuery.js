@@ -48,6 +48,9 @@ $(document).ready(function() {
         } else if (selectValue === '6') {
             $(".loading").show();
             selectedSix();
+        } else if (selectValue === '7') {
+            $(".loading").show();
+            selectedSeventh();
         }
     });
 
@@ -58,6 +61,7 @@ function hideAll(){
     $("#years-rating").hide();
     $("#universally-acclaimed").hide();
     $("#character-job-actor").hide();
+    $("#best_year").hide();
     //TODO: add others
 }
 
@@ -105,6 +109,18 @@ function selectedSix(){
         $("#none-found").show();
         $(".loading").hide();
         window.location.href='#character-job-actor';
+    });
+}
+
+function selectedSeventh(){
+    scrollToLoading();
+    $.post('/seventhquery', { searchInput: searchInput }, resp => {
+        $("#best-year").html(resp);
+        $("#best-year").show();
+        //in case none found
+        $("#none-found").show();
+        $(".loading").hide();
+        window.location.href='#best-year';
     });
 }
 
