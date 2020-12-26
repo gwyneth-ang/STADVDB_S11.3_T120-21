@@ -1,0 +1,29 @@
+<div id="character-job-actor">
+    {{!-- <input type="hidden" id="cur-page" value="1"> --}}
+    {{#if characterJobActor}}
+    <div class="container lists"> 
+        <div class="container input-list">
+            <div class="centered">
+                <h3>Characters and Jobs of the Actor/Actress</h3>
+            </div>
+            {{#each characterJobActor}}   
+            <div class="row"> 
+                <div class="col-lg-9 text-left">
+                    <h2>{{name}}</h2>
+                </div>
+            </div>
+            <div class="row text-left">
+                <h3>Movie Title: {{title}}</h3>
+            </div>
+            <div class="row text-left">
+                <h3>Other Job/s: {{Job}}</h3>
+            </div>
+            <div class="row text-left">
+                <h3>Character/sPlayed: {{Characters}}</h3>
+            </div>
+            <hr>
+            {{/each}}
+        </div>
+    </div>  
+    {{/if}}
+</div>

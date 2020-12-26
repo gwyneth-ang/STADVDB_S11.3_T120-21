@@ -8,12 +8,19 @@ $(document).ready(function() {
         $("#search-box").prop( "disabled", false);
         //clear text box
         $("#search-box"). val("") 
+        $("#search-box").attr("placeholder", "Search");
 
         selectValue = $("#drop-box").val();
 
         if (selectValue === '2') {
             // disable searchbar
             $("#search-box").prop( "disabled", true );;
+        } else if (selectValue === '5') {
+            $("#search-box").attr("placeholder", "Input a year");
+        } else if (selectValue === '6' || selectValue === '7') {
+            $("#search-box").attr("placeholder", "Input an actor/actress");
+            // if (selectValue === '6')
+            // $("#search-box").val('Fred Aster')
         }
     });
 
@@ -32,10 +39,12 @@ $(document).ready(function() {
         if (selectValue === '2') {
             $(".loading").show();
             selectedTwo();
-        }
-        else if (selectValue === '5') {
+        } else if (selectValue === '5') {
             $(".loading").show();
             selectedFive();
+        } else if (selectValue === '6') {
+            $(".loading").show();
+            selectedSix();
         }
     });
 
@@ -44,6 +53,7 @@ $(document).ready(function() {
 function hideAll(){
     $("#years-rating").hide();
     $("#universally-acclaimed").hide();
+    $("#character-job-actor").hide();
     //TODO: add others
 }
 
@@ -71,6 +81,19 @@ function selectedFive(){
     });
 }
 
+function selectedSix(){
+    scrollToLoading();
+    $.post('/sixthQuery', { searchInput: searchInput }, resp => {
+        // console.log(resp);
+        $("#character-job-actor").html(resp);
+        $("#character-job-actor").show();
+        //in case none found
+        $("#none-found").show();
+        $(".loading").hide();
+        window.location.href='#character-job-actor';
+    });
+}
+
 function scrollToLoading(){
     var offset = $(".loading").offset();
     offset.left -= 20;
@@ -80,4 +103,3 @@ function scrollToLoading(){
         scrollLeft: offset.left
     });
 }
-

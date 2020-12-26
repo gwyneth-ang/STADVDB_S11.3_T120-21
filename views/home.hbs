@@ -37,7 +37,7 @@
                                 <option value='3'><!-- Third Query --></option>
                                 <option value='4'><!-- Fourth Query --></option>
                                 <option value='5'>Best or Worst Film/s In Every/Each Year of Release According To the Ratings</option>
-                                <option value='6'><!-- Sixth Query --></option>
+                                <option value='6'>Character played and their job by specific person in a specific film</option>
                                 <option value='7'><!-- Seventh Query --></option>
                             </select>
                         </div>
@@ -55,9 +55,9 @@
         Loading...
     </div>
     
-    {{> none_found }}
-    {{#if movies}}
+    {{> none_found }}  
     <div class="container page2"> 
+        {{#if movies}}
         <div class="container header-page2"> 
             <div class="centered">
                 <h1>MOVIES</h1>
@@ -243,6 +243,9 @@
 
         <!--Years with highest and Lowest Rated Films-->
         {{> years_rating }} <!-- Partials -->
+
+        <!--Character played/job by specific person in a specific film-->
+        {{> character_job_actor }} <!-- Partials -->
         
         {{#if bestYearActor}}
         <div class="container header-page2"> 
