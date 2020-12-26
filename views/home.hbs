@@ -34,8 +34,8 @@
                                 <option selected>Choose...</option>
                                 <option value='1'><!-- First Query --></option>
                                 <option value='2'>Universally Acclaimed Films</option>
-                                <option value='3'><!-- Third Query --></option>
-                                <option value='4'><!-- Fourth Query --></option>
+                                <option value='3'>Top 10 Production Companies and their Highest-rated Film</option>
+                                <option value='4'>Films by Actor/Actress</option>
                                 <option value='5'>Best or Worst Film/s In Every/Each Year of Release According To the Ratings</option>
                                 <option value='6'>Character played and their job by specific person in a specific film</option>
                                 <option value='7'><!-- Seventh Query --></option>
@@ -246,6 +246,12 @@
             </div>
         </div>
         {{/if}}
+
+        <!--Top 10 Production Companies and their Highest-rated Film-->
+        {{> top10_production_companies_films }} <!-- Partials -->
+
+        <!--Films by actor/actress-->
+        {{> actor_films }} <!-- Partials -->
 
         <!--Years with highest and Lowest Rated Films-->
         {{> years_rating }} <!-- Partials -->

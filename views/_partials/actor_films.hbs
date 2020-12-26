@@ -1,0 +1,33 @@
+<div id="actor-films">
+    {{#if actorFilms}}
+        <div class="container header-page2">
+            <div class="centered">
+                <h3>{{#each countOfFilms}}{{count_films}}{{/each}} Films "{{actorName}}" played in</h3>
+            </div>
+        </div>
+        <div class="container lists">
+            <div class="container input-list">
+                {{#each actorFilms}}
+                    <div class="row">
+                        <div class="col-lg-9 text-left">
+                            <h2>{{title}}</h2>
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <h2>{{year}}</h2>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Director: {{director}}</h3>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Genre: {{genre}}</h3>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Duration: {{duration}} minutes</h3>
+                    </div>
+                    <hr>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+</div>

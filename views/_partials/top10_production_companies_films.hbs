@@ -1,0 +1,63 @@
+<div id="production-companies">
+    {{#if topCompanies}}
+        <div class="container header-page2">
+            <div class="centered">
+                <h3>Top 10 Production Companies</h3>
+                <h4>(Based on average ratings)</h4>
+            </div>
+        </div>
+        <div class="container lists">
+            <div class="container input-list">
+                {{#each topCompanies}}
+                    <div class="row">
+                        <div class="col-lg-9 text-left">
+                            <h2>{{production_company}}</h2>
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <h2>{{average_vote_of_movies}}</h2>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Number of movies produced: {{number_of_movies}}</h3>
+                    </div>
+                    <hr>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    <br><br><br><br><br><br><br><br>
+    {{#if topCompanyFilms}}
+        <div class="container header-page2">
+            <div class="centered">
+                <h3>Highest-rated film of each Production Company</h3>
+            </div>
+        </div>
+        <div class="container lists">
+            <div class="container input-list">
+                {{#each topCompanyFilms}}
+                    <div class="row">
+                        <div class="col-lg-9 text-left">
+                            <h2>{{title}} ({{year}})</h2>
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <h2>{{rating}}</h2>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Director: {{director}}</h3>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Genre: {{genre}}</h3>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Duration: {{duration}} minutes</h3>
+                    </div>
+                    <div class="row text-left">
+                        <h3>Production Company: {{production_company}}</h3>
+                    </div>
+                    <hr>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+</div>

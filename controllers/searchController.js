@@ -16,6 +16,81 @@ const searchController = {
         });
     },
 
+    postSearchThirdQuery: (req, res) => {
+        let thirdQuery1 =
+            `SELECT T1.production_company, COUNT(T1.production_company) AS number_of_movies, FORMAT(AVG(T1.weighted_average_vote), 2) AS average_vote_of_movies
+             FROM 
+                ( SELECT m.imdb_title_id, m.production_company, r.weighted_average_vote
+                  FROM   Movies m
+                  JOIN   Ratings r
+                  ON     m.imdb_title_id = r.imdb_title_id
+                ) AS T1
+             GROUP BY T1.production_company
+             HAVING number_of_movies >= 200
+             ORDER BY average_vote_of_movies DESC
+             LIMIT 10;`;
+        let thirdQuery2 =
+            `SELECT production_company, title, year, genre, director, duration, MAX(weighted_average_vote) AS rating
+             FROM Movies m
+             JOIN Ratings r ON m.imdb_title_id = r.imdb_title_id
+             WHERE production_company IN
+                (SELECT production_company
+                    FROM 
+                       ( SELECT T1.production_company, COUNT(T1.production_company) AS number_of_movies, AVG(T1.weighted_average_vote) AS average_vote_of_movies
+                         FROM 
+                            ( SELECT m.imdb_title_id, m.production_company, r.weighted_average_vote
+                              FROM Movies m
+                              JOIN Ratings r
+                              ON m.imdb_title_id = r.imdb_title_id) AS T1
+                              GROUP BY T1.production_company
+                              HAVING number_of_movies >= 200
+                              ORDER BY average_vote_of_movies DESC
+                              LIMIT 10
+                            ) AS T2
+                       )
+             GROUP BY production_company
+             ORDER BY rating DESC;`;
+
+        db.query(thirdQuery1, (err, result1) => {
+            if (err) throw err;
+
+            db.query(thirdQuery2, (err, result2) => {
+                if (err) throw err;
+                return res.render('_partials/top10_production_companies_films', { topCompanies: result1, topCompanyFilms: result2 }, function(err, partial){
+                    res.send(partial);
+                });
+            });
+        });
+    },
+
+    postSearchFourthQuery: (req, res) => {
+        const { searchInput } = req.body;
+
+        let fourthQuery1 =
+            `SELECT COUNT(*) AS count_films
+             FROM Movies, Title_principals, Names
+             WHERE Names.imdb_name_id = Title_principals.imdb_name_id
+             AND Title_principals.imdb_title_id = Movies.imdb_title_id
+             AND Names.name like "%${searchInput}%";`;
+        let fourthQuery2 =
+            `SELECT title, year, genre, director, duration
+             FROM Movies, Title_principals, Names
+             WHERE Names.imdb_name_id = Title_principals.imdb_name_id 
+             AND Title_principals.imdb_title_id = Movies.imdb_title_id
+             AND Names.name like "%${searchInput}%";`;
+
+        db.query(fourthQuery1, (err, result1) => {
+            if (err) throw err;
+
+            db.query(fourthQuery2, (err, result2) => {
+                if (err) throw err;
+                return res.render('_partials/actor_films', { actorName: searchInput, countOfFilms: result1, actorFilms: result2 }, function(err, partial){
+                    res.send(partial);
+                });
+            });
+        });
+    },
+
     postSearchFifthQuery: (req, res) => {
         const { searchInput } = req.body;  
 
