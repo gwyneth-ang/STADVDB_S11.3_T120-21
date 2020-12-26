@@ -1,5 +1,10 @@
 let searchInput;
 let selectValue;
+let pagination;
+let pageNum;
+let pageStart;
+let pageEnd;
+const itemsPerPage = 100;
 
 $(document).ready(function() {
     $(".loading").hide();
@@ -19,8 +24,6 @@ $(document).ready(function() {
             $("#search-box").attr("placeholder", "Input a year");
         } else if (selectValue === '6' || selectValue === '7') {
             $("#search-box").attr("placeholder", "Input an actor/actress");
-            // if (selectValue === '6')
-            // $("#search-box").val('Fred Aster')
         }
     });
 
@@ -51,6 +54,7 @@ $(document).ready(function() {
 });
 
 function hideAll(){
+    removePagination();
     $("#years-rating").hide();
     $("#universally-acclaimed").hide();
     $("#character-job-actor").hide();
@@ -83,10 +87,20 @@ function selectedFive(){
 
 function selectedSix(){
     scrollToLoading();
-    $.post('/sixthQuery', { searchInput: searchInput }, resp => {
+    $.post('/sixthQuery', { searchInput: searchInput, page: 1 }, resp => {
         // console.log(resp);
-        $("#character-job-actor").html(resp);
+        $("#character-job-actor").html(resp.partial);
         $("#character-job-actor").show();
+
+        pagination = Math.ceil(resp.totalCount / itemsPerPage);
+        pageNum = 1;
+        pageStart = 1;
+        pageEnd = pagination > 5 ? 5 : pagination;
+
+        removePagination();
+        if (resp.totalCount > itemsPerPage)
+            setUpPagination(pagination, pageStart, pageEnd, pageNum);
+
         //in case none found
         $("#none-found").show();
         $(".loading").hide();
@@ -103,3 +117,100 @@ function scrollToLoading(){
         scrollLeft: offset.left
     });
 }
+
+//CREDITS TO THE GROUPMATE IN STSWENG AND CCPADEV WHO MADE THE PAGINATION
+function removePagination() {
+    $('#pagination-char-job-actor .page-item').remove();
+}
+
+function setUpPagination (pagination, pageStart, pageEnd, pageNum){   
+    $('#pagination-char-job-actor').append(`
+        <li class="page-item">
+        <a class="page-link" id="prevPage">
+            Prev
+        </a>
+        </li>
+   `);
+
+    for (var i = pageStart; i <= pageEnd; i++) {
+        $('#pagination-char-job-actor').append(
+            '<li class="page-item' + ((i == pageNum) ? ' active' : '') + '">' +
+            '<a class="page-link page-number">' +
+            i +
+            '</a>' +
+            '</li>'
+        );
+    }
+
+    $('#pagination-char-job-actor').append(`
+        <li class="page-item">
+        <a class="page-link"id="nextPage">
+            Next
+        </a>
+        </li>
+    `);
+
+    $('#pagination-char-job-actor .page-link').click(function () {
+        searchInput = $("#search-box").val();
+        var offset = 0;
+
+        if ($(this).attr('id') == 'nextPage')
+            offset = 1;
+        else if ($(this).attr('id') == 'prevPage')
+            offset = -1;
+        else if (pagination == 1)
+            offset = 0;
+        else
+            offset = $(this).text() - pageNum;
+
+        var maxPageShiftR = pagination - pageEnd;
+        var maxPageShiftL = pageStart - 1;
+
+        if (pageNum + offset >= 1 && pageNum + offset <= pagination && offset != 0) {
+            $(".loading").show();
+            $("#character-job-actor").hide();
+
+        $.post('/sixthQuery',
+            {searchInput: searchInput, page: pageNum + offset}, resp => {
+                if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
+
+                    if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2
+                    || offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
+                    pageStart += offset;
+                    pageEnd += offset;
+                    } else if (offset > 0 && offset > maxPageShiftR) {
+                    pageStart += maxPageShiftR;
+                    pageEnd += maxPageShiftR;
+                    } else if (offset < 0 && -1 * offset > maxPageShiftL) {
+                    pageStart -= maxPageShiftL;
+                    pageEnd -= maxPageShiftL;
+                    }
+
+                }
+                pageNum += offset;
+
+                //TODO: changed
+                $("#character-job-actor").html(resp.partial);
+                $("#character-job-actor").show();
+
+                updatePagination(pageStart, pageNum)
+
+                //in case none found
+                $("#none-found").show();
+                $(".loading").hide();
+                window.location.href='#character-job-actor';
+            });
+        }
+    });
+}
+
+function updatePagination(pageStart, pageNum) {
+    $('#pagination-char-job-actor .page-number').each(function (index, element) {
+        $(element).text(pageStart + index);
+        if ($(element).text() != pageNum)
+            $(element).parent().removeClass('active');
+        else
+            $(element).parent().addClass('active');
+    })
+}
+

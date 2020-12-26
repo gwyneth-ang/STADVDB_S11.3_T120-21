@@ -156,15 +156,32 @@ form .form-row .form-group select {
     right: 20px;
 }
 
-#upBtn:hover{
-    background-color: greenyellow;
+#upBtn:hover {
+    background-color: #009900;
 }
 
-html{
+html {
     scroll-behavior: smooth;
 }
 
 /* TODO: add search button design */
-#searchBtn{
+#searchBtn {
     background-color: white;
+}
+
+.page-link {
+    background-color: rgba(250, 241, 241, 0.53);
+    color: #441F0B;
+}
+
+.page-item.active .page-link {
+    background-color: #441F0B;
+    color: rgba(250, 241, 241, 0.53);
+    border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+    background-color: #441F0B;
+    color: rgba(250, 241, 241, 0.53) !important;
+    border: 1px solid #dee2e6;
 }

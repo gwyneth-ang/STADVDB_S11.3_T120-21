@@ -1,5 +1,3 @@
-// const Pagination = require('../modules/pagination');
-
 const searchController = {
 
     viewHomePage: (req, res) => res.render('home'),
@@ -76,89 +74,56 @@ const searchController = {
     },
 
     postSearchSixthQuery: (req, res) => {
-        const { searchInput } = req.body;
+        const { searchInput, page } = req.body;
 
-        // let countQuery =
-        //     `SELECT COUNT(*) AS totalCount
-        //      FROM   title_principals P, movies M, names N
-        //      WHERE  N.imdb_name_id = P.imdb_name_id 
-        //             AND P.imdb_title_id = M.imdb_title_id
-        //             AND N.name LIKE "%${searchInput}%";
-        //     `;
-
-        //     console.log(curPage);
-            
-        //     // Get current page from url (request parameter)
-        //     let page_id = parseInt(curPage),
-        //         currentPage = page_id > 0 ? page_id : currentPage,
-    
-        //         //Change pageUri to your page url without the 'page' query string 
-        //         pageUri = '/sixthQuery/';
-
-        //     /*Get total items*/
-        //     db.query(countQuery,(err,count) => {
-        //         if (err) throw err;
-    
-        //         // Display 50 items per page
-        //         const perPage = 10,
-        //             totalCount = count[0].totalCount;
-
-        //         console.log(totalCount);
-
-        //         if (totalCount === 0) {
-        //             result = "None found: Please search again";
-        //             return res.render('_partials/none_found', { res: result }, function(err, partial){
-        //                 res.send(partial);
-        //             });
-        //         }
-    
-        //         // Instantiate Pagination class
-        //         const Paginate = new Pagination(totalCount,currentPage,pageUri,perPage);
-    
-        //         /*Query items*/
-        //         let sixthQuery = 
-        //             `SELECT N.name, M.title, IFNULL(P.job, 'None') AS 'Job', IFNULL(P.characters, 'None') AS 'Characters'
-        //              FROM   title_principals P, movies M, names N
-        //              WHERE  N.imdb_name_id = P.imdb_name_id 
-        //                     AND P.imdb_title_id = M.imdb_title_id
-        //                     AND N.name LIKE "%${searchInput}%"
-        //              LIMIT ${Paginate.perPage}
-        //              OFFSET ${Paginate.offset};
-        //             `;
-
-        //         db.query(sixthQuery,(err,result) => {
-        //             console.log('secondhere');
-        //             if (err) throw err;
-
-        //             return res.render('_partials/character_job_actor', { characterJobActor: result, pages: Paginate.links() }, function(err, partial){
-        //                 res.send(partial);
-        //             });
-        //         });
-        //     });
-
-        let sixthQuery = 
-            `SELECT N.name, M.title, IFNULL(P.job, 'None') AS 'Job', IFNULL(P.characters, 'None') AS 'Characters'
+        let countQuery =
+            `SELECT COUNT(*) AS totalCount
              FROM   title_principals P, movies M, names N
              WHERE  N.imdb_name_id = P.imdb_name_id 
                     AND P.imdb_title_id = M.imdb_title_id
                     AND N.name LIKE "%${searchInput}%";
             `;
 
-        db.query(sixthQuery, (err, result) => {
+        /*Get total items*/
+        db.query(countQuery,(err,count) => {
             if (err) throw err;
 
-            if (result.length === 0){
+            // Display 100 items per page
+            const perPage = 100, totalCount = count[0].totalCount;
+
+            if (totalCount === 0) {
                 result = "None found: Please search again";
                 return res.render('_partials/none_found', { res: result }, function(err, partial){
-                    res.send(partial);
+                    res.send({
+                        partial
+                    });
                 });
             }
-            return res.render('_partials/character_job_actor', { characterJobActor: result }, function(err, partial){
-                res.send(partial);
+
+            /*Query items*/
+            let sixthQuery = 
+                `SELECT N.name, M.title, IFNULL(P.job, 'None') AS 'Job', 
+                        TRIM(TRAILING ']' FROM TRIM(LEADING '[' FROM (REPLACE(IFNULL(P.characters, 'none'), '"', '')))) AS 'Characters'
+                    FROM   title_principals P, movies M, names N
+                    WHERE  N.imdb_name_id = P.imdb_name_id 
+                        AND P.imdb_title_id = M.imdb_title_id
+                        AND N.name LIKE "%${searchInput}%"
+                    LIMIT ${perPage}
+                    OFFSET ${(page - 1) * perPage};
+                `;
+
+            db.query(sixthQuery,(err,result) => {
+                console.log('secondhere');
+                if (err) throw err;
+
+                return res.render('_partials/character_job_actor', { characterJobActor: result }, function(err, partial){
+                    res.send({ 
+                        partial, 
+                        totalCount
+                    });
+                });
             });
         });
-
-            
     }
 
 
