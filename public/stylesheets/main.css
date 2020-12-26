@@ -20,7 +20,7 @@ body {
 }
 
 .centered h1,
-h3 {
+h3, h4 {
     font-family: 'Bebas Neue', cursive;
     font-style: normal;
     font-weight: normal;
@@ -37,6 +37,12 @@ h3 {
 
 .centered h3 {
     font-size: 48px;
+    margin-top: -30px;
+    margin-bottom: 50px;
+}
+
+.centered h4 {
+    font-size: 26px;
     margin-top: -30px;
     margin-bottom: 50px;
 }

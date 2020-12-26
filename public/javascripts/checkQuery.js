@@ -19,7 +19,12 @@ $(document).ready(function() {
 
         if (selectValue === '2') {
             // disable searchbar
-            $("#search-box").prop( "disabled", true );;
+            $("#search-box").prop( "disabled", true );
+        } else if (selectValue == '3') {
+            // disable searchbar
+            $("#search-box").prop( "disabled", true );
+        } else if (selectValue === '4') {
+            $("#search-box").attr("placeholder", "Input an actor/actress");
         } else if (selectValue === '5') {
             $("#search-box").attr("placeholder", "Input a year");
         } else if (selectValue === '6' || selectValue === '7') {
@@ -42,6 +47,12 @@ $(document).ready(function() {
         if (selectValue === '2') {
             $(".loading").show();
             selectedTwo();
+        } else if (selectValue === '3') {
+            $(".loading").show();
+            selectedThree();
+        } else if (selectValue === '4') {
+            $(".loading").show();
+            selectedFour();
         } else if (selectValue === '5') {
             $(".loading").show();
             selectedFive();
@@ -59,6 +70,8 @@ $(document).ready(function() {
 function hideAll(){
     removePagination();
     $("#years-rating").hide();
+    $("#production-companies").hide();
+    $("#actor-films").hide();
     $("#universally-acclaimed").hide();
     $("#character-job-actor").hide();
     $("#best_year").hide();
@@ -73,6 +86,30 @@ function selectedTwo(){
         $("#universally-acclaimed").show();
         $(".loading").hide();
         window.location.href='#universally-acclaimed';
+    });
+}
+
+function selectedThree(){
+    scrollToLoading();
+    $.post('/thirdQuery', resp => {
+        // console.log(resp);
+        $("#production-companies").html(resp);
+        $("#production-companies").show();
+
+        $(".loading").hide();
+        window.location.href='#production-companies-and-films';
+    });
+}
+
+function selectedFour(){
+    scrollToLoading();
+    $.post('/fourthQuery', { searchInput: searchInput }, resp => {
+        // console.log(resp);
+        $("#actor-films").html(resp);
+        $("#actor-films").show();
+
+        $(".loading").hide();
+        window.location.href='#actor-films';
     });
 }
 
