@@ -16,20 +16,14 @@ $(document).ready(function() {
         $("#search-box").attr("placeholder", "Search");
 
         selectValue = $("#drop-box").val();
-        if (selectValue === '1') {
+        if (selectValue === '1' || selectValue === '2' || selectValue == '3') {
             $("#search-box").prop("disabled", true);
-        } else if (selectValue === '2') {
-            // disable searchbar
-            $("#search-box").prop("disabled", true);
-        } else if (selectValue == '3') {
-            // disable searchbar
-            $("#search-box").prop("disabled", true);
-        } else if (selectValue === '4') {
+        } else if (selectValue === '4' || selectValue === '7') {
             $("#search-box").attr("placeholder", "Input an actor/actress");
         } else if (selectValue === '5') {
             $("#search-box").attr("placeholder", "Input a year");
-        } else if (selectValue === '6' || selectValue === '7') {
-            $("#search-box").attr("placeholder", "Input an actor/actress");
+        } else if (selectValue === '6') {
+            $("#search-box").attr("placeholder", "Input a name");
         }
     });
 
@@ -44,26 +38,20 @@ $(document).ready(function() {
             searchInput = $("#search-box").val();
 
             hideAll();
+            $(".loading").show();
             if (selectValue === '1') {
-                $(".loading").show();
                 selectedOne();
             } else if (selectValue === '2') {
-                $(".loading").show();
                 selectedTwo();
             } else if (selectValue === '3') {
-                $(".loading").show();
                 selectedThree();
             } else if (selectValue === '4') {
-                $(".loading").show();
                 selectedFour();
             } else if (selectValue === '5') {
-                $(".loading").show();
                 selectedFive();
             } else if (selectValue === '6') {
-                $(".loading").show();
                 selectedSix();
             } else if (selectValue === '7') {
-                $(".loading").show();
                 selectedSeventh();
             }
         });
