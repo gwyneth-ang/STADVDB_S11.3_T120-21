@@ -179,15 +179,15 @@ const searchController = {
         const { searchInput, page } = req.body;
 
         let countQuery =
-            `SELECT COUNT(*)
-            FROM title_principals P, movies M, names N,
+            `SELECT COUNT(*) AS 'totalCount'
+             FROM title_principals P, movies M, names N,
                 (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
                 FROM title_principals P1, movies M1, names N1
                 WHERE N1.imdb_name_id = P1.imdb_name_id 
                 AND P1.imdb_title_id = M1.imdb_title_id
                 AND N1.name LIKE "%${searchInput}%"
                 GROUP BY N1.name) T1
-            WHERE T1.imdb_name_id=N.imdb_name_id
+             WHERE T1.imdb_name_id=N.imdb_name_id
                 AND N.imdb_name_id = P.imdb_name_id 
                 AND P.imdb_title_id = M.imdb_title_id;
             `;
@@ -197,9 +197,8 @@ const searchController = {
             if (err) throw err;
 
             // Display 100 items per page
-            const perPage = 100,
-                totalCount = count[0].totalCount;
-
+            const perPage = 100, totalCount = count[0].totalCount;
+            
             if (totalCount === 0) {
                 result = "None found: Please search again";
                 return res.render('_partials/none_found', { res: result }, function(err, partial) {

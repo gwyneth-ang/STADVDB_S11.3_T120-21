@@ -12,7 +12,7 @@ const hbsHelpers = {
             hbs = `
                 <div class="container header-page2">
                     <div class="centered">
-                        <h3><u>${hbsName}</u> has an on average <u>${hbsOrdering}</u> for order of importance</h3>
+                        <h3><u>${hbsName}</u> has an on average <u>${hbsOrdering}</u> for order of importance in the movies</h3>
                     </div>
                 </div>
             `;
@@ -22,7 +22,7 @@ const hbsHelpers = {
             hbs = `
             <div class="container header-page2">
                 <div class="centered">
-                    <h3><u>${hbsName}</u> has an on average <u>${hbsOrdering}</u> for order of importance</h3>
+                    <h3><u>${hbsName}</u> has an on average <u>${hbsOrdering}</u> for order of importance in the movies</h3>
                 </div>
             </div>
         `; 
