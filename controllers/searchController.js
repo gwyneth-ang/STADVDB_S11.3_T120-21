@@ -2,15 +2,30 @@ const searchController = {
 
     viewHomePage: (req, res) => res.render('home'),
 
+    postSearchFirstQuery: (req, res) => {
+        let firstquery =
+            `SELECT title, year, genre, director, duration
+            FROM movies
+            WHERE Language = "English"
+            ORDER BY year DESC;`;
+
+        db.query(firstquery, (err, result) => {
+            return res.render('_partials/english_films', { movies: result },
+                function(err, partial) {
+                    res.send(partial);
+                });
+        });
+    },
+
     postSearchSecondQuery: (req, res) => {
-        let secondquery = 
+        let secondquery =
             `SELECT title, year, genre, director, metascore
              FROM movies
              WHERE metascore >= 81
              ORDER BY metascore DESC;`;
 
         db.query(secondquery, (err, result) => {
-            return res.render('_partials/universally_acclaimed', { res: result }, function(err, partial){
+            return res.render('_partials/universally_acclaimed', { res: result }, function(err, partial) {
                 res.send(partial);
             });
         });
@@ -56,7 +71,7 @@ const searchController = {
 
             db.query(thirdQuery2, (err, result2) => {
                 if (err) throw err;
-                return res.render('_partials/top10_production_companies_films', { topCompanies: result1, topCompanyFilms: result2 }, function(err, partial){
+                return res.render('_partials/top10_production_companies_films', { topCompanies: result1, topCompanyFilms: result2 }, function(err, partial) {
                     res.send(partial);
                 });
             });
@@ -71,12 +86,14 @@ const searchController = {
              FROM Movies, Title_principals, Names
              WHERE Names.imdb_name_id = Title_principals.imdb_name_id
              AND Title_principals.imdb_title_id = Movies.imdb_title_id
+             AND (Title_principals.category = "actor" OR Title_principals.category = "actress")
              AND Names.name like "%${searchInput}%";`;
         let fourthQuery2 =
             `SELECT title, year, genre, director, duration
              FROM Movies, Title_principals, Names
              WHERE Names.imdb_name_id = Title_principals.imdb_name_id 
              AND Title_principals.imdb_title_id = Movies.imdb_title_id
+             AND (Title_principals.category = "actor" OR Title_principals.category = "actress")
              AND Names.name like "%${searchInput}%";`;
 
         db.query(fourthQuery1, (err, result1) => {
@@ -84,7 +101,7 @@ const searchController = {
 
             db.query(fourthQuery2, (err, result2) => {
                 if (err) throw err;
-                return res.render('_partials/actor_films', { actorName: searchInput, countOfFilms: result1, actorFilms: result2 }, function(err, partial){
+                return res.render('_partials/actor_films', { actorName: searchInput, countOfFilms: result1, actorFilms: result2 }, function(err, partial) {
                     res.send(partial);
                 });
             });
@@ -92,9 +109,9 @@ const searchController = {
     },
 
     postSearchFifthQuery: (req, res) => {
-        const { searchInput } = req.body;  
+        const { searchInput } = req.body;
 
-        let fifthQueryHigh = 
+        let fifthQueryHigh =
             `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
              FROM            MOVIES m1, RATINGS r1, TITLE_PRINCIPALS tp1,
                 ( SELECT     m2.year, MAX(r2.weighted_average_vote) AS 'Ratings'
@@ -111,7 +128,7 @@ const searchController = {
              ORDER BY year ASC;
             `;
 
-        let fifthQueryLow = 
+        let fifthQueryLow =
             `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
              FROM            MOVIES m1, RATINGS r1, TITLE_PRINCIPALS tp1,
                 ( SELECT     m2.year, MIN(r2.weighted_average_vote) AS 'Ratings'
@@ -133,15 +150,15 @@ const searchController = {
 
             db.query(fifthQueryLow, (err, lowResult) => {
                 if (err) throw err;
-                    if (highResult.length === 0 && lowResult.length === 0){
-                        result = "None found: Please search again";
-                        return res.render('_partials/none_found', { res: result }, function(err, partial){
-                            res.send(partial);
-                        });
-                    }
-                    return res.render('_partials/years_rating', { yearsHighRate: highResult, yearsLowRate: lowResult }, function(err, partial){
+                if (highResult.length === 0 && lowResult.length === 0) {
+                    result = "None found: Please search again";
+                    return res.render('_partials/none_found', { res: result }, function(err, partial) {
                         res.send(partial);
                     });
+                }
+                return res.render('_partials/years_rating', { yearsHighRate: highResult, yearsLowRate: lowResult }, function(err, partial) {
+                    res.send(partial);
+                });
             });
 
         });
@@ -160,15 +177,16 @@ const searchController = {
             `;
 
         /*Get total items*/
-        db.query(countQuery,(err,count) => {
+        db.query(countQuery, (err, count) => {
             if (err) throw err;
 
             // Display 100 items per page
-            const perPage = 100, totalCount = count[0].totalCount;
+            const perPage = 100,
+                totalCount = count[0].totalCount;
 
             if (totalCount === 0) {
                 result = "None found: Please search again";
-                return res.render('_partials/none_found', { res: result }, function(err, partial){
+                return res.render('_partials/none_found', { res: result }, function(err, partial) {
                     res.send({
                         partial
                     });
@@ -176,7 +194,7 @@ const searchController = {
             }
 
             /*Query items*/
-            let sixthQuery = 
+            let sixthQuery =
                 `SELECT N.name, M.title, IFNULL(P.job, 'None') AS 'Job', 
                         TRIM(TRAILING ']' FROM TRIM(LEADING '[' FROM (REPLACE(IFNULL(P.characters, 'none'), '"', '')))) AS 'Characters'
                     FROM   title_principals P, movies M, names N
@@ -187,13 +205,13 @@ const searchController = {
                     OFFSET ${(page - 1) * perPage};
                 `;
 
-            db.query(sixthQuery,(err,result) => {
+            db.query(sixthQuery, (err, result) => {
                 console.log('secondhere');
                 if (err) throw err;
 
-                return res.render('_partials/character_job_actor', { characterJobActor: result }, function(err, partial){
-                    res.send({ 
-                        partial, 
+                return res.render('_partials/character_job_actor', { characterJobActor: result }, function(err, partial) {
+                    res.send({
+                        partial,
                         totalCount
                     });
                 });
@@ -205,7 +223,7 @@ const searchController = {
         const { searchInput } = req.body;
         const name = req.body.searchInput;
         console.log(name);
-        let seventhquery = 
+        let seventhquery =
             `SELECT name, year, b.best_year_rating, title,  max(weighted_average_vote) as movie_rating, job, characters
             FROM names n , title_principals t, movies m, ratings r, 
                 (SELECT a.name as best_name, a.year as best_year, 
@@ -231,7 +249,7 @@ const searchController = {
             ORDER BY name;`;
 
         db.query(seventhquery, (err, result) => {
-            return res.render('_partials/best_year', { res: result, search: name}, function(err, partial){
+            return res.render('_partials/best_year', { res: result, search: name }, function(err, partial) {
                 res.send(partial);
             });
         });

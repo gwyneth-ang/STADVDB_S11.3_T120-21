@@ -9,20 +9,21 @@ const itemsPerPage = 100;
 $(document).ready(function() {
     $(".loading").hide();
 
-    $('#drop-box').on('change', function (e) {
-        $("#search-box").prop( "disabled", false);
+    $('#drop-box').on('change', function(e) {
+        $("#search-box").prop("disabled", false);
         //clear text box
-        $("#search-box"). val("") 
+        $("#search-box").val("")
         $("#search-box").attr("placeholder", "Search");
 
         selectValue = $("#drop-box").val();
-
-        if (selectValue === '2') {
+        if (selectValue === '1') {
+            $("#search-box").prop("disabled", true);
+        } else if (selectValue === '2') {
             // disable searchbar
-            $("#search-box").prop( "disabled", true );
+            $("#search-box").prop("disabled", true);
         } else if (selectValue == '3') {
             // disable searchbar
-            $("#search-box").prop( "disabled", true );
+            $("#search-box").prop("disabled", true);
         } else if (selectValue === '4') {
             $("#search-box").attr("placeholder", "Input an actor/actress");
         } else if (selectValue === '5') {
@@ -32,64 +33,76 @@ $(document).ready(function() {
         }
     });
 
-    $('#search-box').on('keyup', function (e) {
-        if (e.key === "Enter") {
-            $("#searchBtn").click();
-        }  
-    }),
+    $('#search-box').on('keyup', function(e) {
+            if (e.key === "Enter") {
+                $("#searchBtn").click();
+            }
+        }),
 
-    $('#searchBtn').on('click', function (e) {
-        selectValue = $("#drop-box").val();
-        searchInput = $("#search-box").val();
+        $('#searchBtn').on('click', function(e) {
+            selectValue = $("#drop-box").val();
+            searchInput = $("#search-box").val();
 
-        hideAll();
-
-        if (selectValue === '2') {
-            $(".loading").show();
-            selectedTwo();
-        } else if (selectValue === '3') {
-            $(".loading").show();
-            selectedThree();
-        } else if (selectValue === '4') {
-            $(".loading").show();
-            selectedFour();
-        } else if (selectValue === '5') {
-            $(".loading").show();
-            selectedFive();
-        } else if (selectValue === '6') {
-            $(".loading").show();
-            selectedSix();
-        } else if (selectValue === '7') {
-            $(".loading").show();
-            selectedSeventh();
-        }
-    });
+            hideAll();
+            if (selectValue === '1') {
+                $(".loading").show();
+                selectedOne();
+            } else if (selectValue === '2') {
+                $(".loading").show();
+                selectedTwo();
+            } else if (selectValue === '3') {
+                $(".loading").show();
+                selectedThree();
+            } else if (selectValue === '4') {
+                $(".loading").show();
+                selectedFour();
+            } else if (selectValue === '5') {
+                $(".loading").show();
+                selectedFive();
+            } else if (selectValue === '6') {
+                $(".loading").show();
+                selectedSix();
+            } else if (selectValue === '7') {
+                $(".loading").show();
+                selectedSeventh();
+            }
+        });
 
 });
 
-function hideAll(){
+function hideAll() {
     removePagination();
+    $("#english-movies").hide();
     $("#years-rating").hide();
     $("#production-companies").hide();
     $("#actor-films").hide();
     $("#universally-acclaimed").hide();
     $("#character-job-actor").hide();
     $("#best_year").hide();
-    //TODO: add others
 }
 
-function selectedTwo(){
+function selectedOne() {
+    scrollToLoading();
+    $.post('/firstQuery', resp => {
+        $("#english-movies").html(resp);
+        $("#english-movies").show();
+        $(".loading").hide();
+        window.location.href = '#english-movies';
+    });
+}
+
+function selectedTwo() {
     scrollToLoading();
     $.post('/secondQuery', resp => {
         // console.log(resp);
         $("#universally-acclaimed").html(resp);
         $("#universally-acclaimed").show();
         $(".loading").hide();
-        window.location.href='#universally-acclaimed';
+        window.location.href = '#universally-acclaimed';
     });
 }
 
-function selectedThree(){
+function selectedThree() {
     scrollToLoading();
     $.post('/thirdQuery', resp => {
         // console.log(resp);
@@ -97,11 +110,11 @@ function selectedThree(){
         $("#production-companies").show();
 
         $(".loading").hide();
-        window.location.href='#production-companies-and-films';
+        window.location.href = '#production-companies-and-films';
     });
 }
 
-function selectedFour(){
+function selectedFour() {
     scrollToLoading();
     $.post('/fourthQuery', { searchInput: searchInput }, resp => {
         // console.log(resp);
@@ -109,11 +122,11 @@ function selectedFour(){
         $("#actor-films").show();
 
         $(".loading").hide();
-        window.location.href='#actor-films';
+        window.location.href = '#actor-films';
     });
 }
 
-function selectedFive(){
+function selectedFive() {
     scrollToLoading();
     $.post('/fifthQuery', { searchInput: searchInput }, resp => {
         // console.log(resp);
@@ -122,11 +135,11 @@ function selectedFive(){
         //in case none found
         $("#none-found").show();
         $(".loading").hide();
-        window.location.href='#years-rating';
+        window.location.href = '#years-rating';
     });
 }
 
-function selectedSix(){
+function selectedSix() {
     scrollToLoading();
     $.post('/sixthQuery', { searchInput: searchInput, page: 1 }, resp => {
         // console.log(resp);
@@ -145,11 +158,11 @@ function selectedSix(){
         //in case none found
         $("#none-found").show();
         $(".loading").hide();
-        window.location.href='#character-job-actor';
+        window.location.href = '#character-job-actor';
     });
 }
 
-function selectedSeventh(){
+function selectedSeventh() {
     scrollToLoading();
     $.post('/seventhquery', { searchInput: searchInput }, resp => {
         $("#best-year").html(resp);
@@ -157,11 +170,11 @@ function selectedSeventh(){
         //in case none found
         $("#none-found").show();
         $(".loading").hide();
-        window.location.href='#best-year';
+        window.location.href = '#best-year';
     });
 }
 
-function scrollToLoading(){
+function scrollToLoading() {
     var offset = $(".loading").offset();
     offset.left -= 20;
     offset.top -= 20;
@@ -176,7 +189,7 @@ function removePagination() {
     $('#pagination-char-job-actor .page-item').remove();
 }
 
-function setUpPagination (pagination, pageStart, pageEnd, pageNum){   
+function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
     $('#pagination-char-job-actor').append(`
         <li class="page-item">
         <a class="page-link" id="prevPage">
@@ -203,7 +216,7 @@ function setUpPagination (pagination, pageStart, pageEnd, pageNum){
         </li>
     `);
 
-    $('#pagination-char-job-actor .page-link').click(function () {
+    $('#pagination-char-job-actor .page-link').click(function() {
         searchInput = $("#search-box").val();
         var offset = 0;
 
@@ -223,20 +236,19 @@ function setUpPagination (pagination, pageStart, pageEnd, pageNum){
             $(".loading").show();
             $("#character-job-actor").hide();
 
-        $.post('/sixthQuery',
-            {searchInput: searchInput, page: pageNum + offset}, resp => {
+            $.post('/sixthQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
                 if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
 
-                    if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2
-                    || offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
-                    pageStart += offset;
-                    pageEnd += offset;
+                    if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2 ||
+                        offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
+                        pageStart += offset;
+                        pageEnd += offset;
                     } else if (offset > 0 && offset > maxPageShiftR) {
-                    pageStart += maxPageShiftR;
-                    pageEnd += maxPageShiftR;
+                        pageStart += maxPageShiftR;
+                        pageEnd += maxPageShiftR;
                     } else if (offset < 0 && -1 * offset > maxPageShiftL) {
-                    pageStart -= maxPageShiftL;
-                    pageEnd -= maxPageShiftL;
+                        pageStart -= maxPageShiftL;
+                        pageEnd -= maxPageShiftL;
                     }
 
                 }
@@ -251,14 +263,14 @@ function setUpPagination (pagination, pageStart, pageEnd, pageNum){
                 //in case none found
                 $("#none-found").show();
                 $(".loading").hide();
-                window.location.href='#character-job-actor';
+                window.location.href = '#character-job-actor';
             });
         }
     });
 }
 
 function updatePagination(pageStart, pageNum) {
-    $('#pagination-char-job-actor .page-number').each(function (index, element) {
+    $('#pagination-char-job-actor .page-number').each(function(index, element) {
         $(element).text(pageStart + index);
         if ($(element).text() != pageNum)
             $(element).parent().removeClass('active');
@@ -266,4 +278,3 @@ function updatePagination(pageStart, pageNum) {
             $(element).parent().addClass('active');
     })
 }
-

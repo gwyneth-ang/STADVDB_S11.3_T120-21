@@ -1,0 +1,31 @@
+<div id="english-movies">
+    {{#if movies}}
+        <div class="container header-page2"> 
+            <div class="centered">
+                <h1>MOVIES</h1>
+            </div>
+        </div>
+        <div class="container lists"> 
+            {{#each movies}}
+            <div class="container input-list">
+                <div class="row"> 
+                    <div class="col-lg-9 text-left">
+                        <h2>{{title}}</h2>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <h2>{{year}}</h2>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <h3>{{director}} | {{duration}}</h3>
+                </div>
+                <div class="row text-left">
+                    <h3>{{genre}}</h3>
+                </div>
+                <hr>
+            </div>
+            {{/each}}
+        </div>
+        {{/if}}
+
+</div>
