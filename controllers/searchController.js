@@ -84,6 +84,14 @@ const searchController = {
 
             db.query(fourthQuery2, (err, result2) => {
                 if (err) throw err;
+
+                if (result2.length === 0){
+                    let none = "None found: Please search again";
+                    return res.render('_partials/none_found', { res: none }, function(err, partial){
+                        res.send(partial);
+                    });
+                }
+
                 return res.render('_partials/actor_films', { actorName: searchInput, countOfFilms: result1, actorFilms: result2 }, function(err, partial){
                     res.send(partial);
                 });
@@ -133,15 +141,17 @@ const searchController = {
 
             db.query(fifthQueryLow, (err, lowResult) => {
                 if (err) throw err;
-                    if (highResult.length === 0 && lowResult.length === 0){
-                        result = "None found: Please search again";
-                        return res.render('_partials/none_found', { res: result }, function(err, partial){
-                            res.send(partial);
-                        });
-                    }
-                    return res.render('_partials/years_rating', { yearsHighRate: highResult, yearsLowRate: lowResult }, function(err, partial){
+
+                if (highResult.length === 0 && lowResult.length === 0){
+                    let none = "None found: Please search again";
+                    return res.render('_partials/none_found', { res: none }, function(err, partial){
                         res.send(partial);
                     });
+                }
+
+                return res.render('_partials/years_rating', { yearsHighRate: highResult, yearsLowRate: lowResult }, function(err, partial){
+                    res.send(partial);
+                });
             });
 
         });
@@ -177,18 +187,24 @@ const searchController = {
 
             /*Query items*/
             let sixthQuery = 
-                `SELECT N.name, M.title, IFNULL(P.job, 'None') AS 'Job', 
-                        TRIM(TRAILING ']' FROM TRIM(LEADING '[' FROM (REPLACE(IFNULL(P.characters, 'none'), '"', '')))) AS 'Characters'
-                    FROM   title_principals P, movies M, names N
-                    WHERE  N.imdb_name_id = P.imdb_name_id 
-                        AND P.imdb_title_id = M.imdb_title_id
-                        AND N.name LIKE "%${searchInput}%"
-                    LIMIT ${perPage}
-                    OFFSET ${(page - 1) * perPage};
+                `SELECT T1.Ordering, N.name, M.title, IFNULL(P.category, 'None') AS 'Job', 
+                        TRIM(TRAILING ']' FROM TRIM(LEADING '[' 
+                FROM (REPLACE(IFNULL(P.characters, 'None'), '"', '')))) AS 'Characters'
+                FROM title_principals P, movies M, names N,
+                     (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
+                      FROM title_principals P1, movies M1, names N1
+                      WHERE N1.imdb_name_id = P1.imdb_name_id 
+                      AND P1.imdb_title_id = M1.imdb_title_id
+                      AND N1.name LIKE "%${searchInput}%"
+                     GROUP BY N1.name) T1
+                WHERE T1.imdb_name_id=N.imdb_name_id
+                      AND N.imdb_name_id = P.imdb_name_id 
+                      AND P.imdb_title_id = M.imdb_title_id;
+                LIMIT ${perPage}
+                OFFSET ${(page - 1) * perPage};
                 `;
 
             db.query(sixthQuery,(err,result) => {
-                console.log('secondhere');
                 if (err) throw err;
 
                 return res.render('_partials/character_job_actor', { characterJobActor: result }, function(err, partial){
@@ -231,6 +247,13 @@ const searchController = {
             ORDER BY name;`;
 
         db.query(seventhquery, (err, result) => {
+            if (result.length === 0){
+                let none = "None found: Please search again";
+                return res.render('_partials/none_found', { res: none }, function(err, partial){
+                    res.send(partial);
+                });
+            }
+
             return res.render('_partials/best_year', { res: result, search: name}, function(err, partial){
                 res.send(partial);
             });

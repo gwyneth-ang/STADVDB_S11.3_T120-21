@@ -1,16 +1,21 @@
 <div id="character-job-actor">
     {{#if characterJobActor}}
+    <div class="container header-page2">
+        <div class="centered">
+            <h3>{{#each countOfFilms}}{{count_films}}{{/each}} Films "{{name}}" played in</h3>
+        </div>
+    </div>
     <div class="container lists"> 
         <div class="container input-list">
             <div class="centered">
                 <h3>Characters and Jobs of the Actor/Actress</h3>
             </div>
             {{#each characterJobActor}}   
-            <div class="row"> 
+            {{!-- <div class="row"> 
                 <div class="col-lg-9 text-left">
                     <h2>{{name}}</h2>
                 </div>
-            </div>
+            </div> --}}
             <div class="row text-left">
                 <h3>Movie Title: {{title}}</h3>
             </div>
