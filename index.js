@@ -25,6 +25,11 @@ hbs.registerPartials(path.join(__dirname, '/views/_partials'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+//hbs helpers
+const hbsHelpers = require(__dirname + '/modules/hbsHelpers.js');
+
+hbs.registerHelper(hbsHelpers);
+
 // set the folder `public` as folder containing static assets
 // such as stylesheets, javascripts, and image files
 app.use(express.static(path.join(__dirname, '/public')));
