@@ -1,9 +1,9 @@
 // REQUIRES
-const express       = require('express');
-const bodyParser    = require('body-parser');
-const hbs           = require('hbs');
-const path          = require('path');
-const mysql         = require('mysql');
+const express = require('express');
+const bodyParser = require('body-parser');
+const hbs = require('hbs');
+const path = require('path');
+const mysql = require('mysql');
 
 require('dotenv').config()
 
@@ -42,21 +42,20 @@ app.use(bodyParser.urlencoded({
 
 //connect to mysql
 const db = mysql.createConnection({
-    host :      process.env.DB_HOST,
-    user:       process.env.DB_USER,
-    password:   process.env.DB_PASSWORD,
-    database:   process.env.DB_DATABASE,
-    port:       process.env.DB_PORT
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    port: process.env.DB_PORT
 });
 
 global.db = db;
 
 db.connect((err) => {
-    if(err){
+    if (err) {
         // console.log("Here");
         throw err;
-    }
-    else {
+    } else {
         console.log('Connected to database');
     }
 });

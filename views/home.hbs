@@ -32,7 +32,7 @@
                         <div class="form-group col-md-4">
                             <select id="drop-box" class="form-control">
                                 <option selected>Choose...</option>
-                                <option value='1'><!-- First Query --></option>
+                                <option value='1'>List of English Movies</option>
                                 <option value='2'>Universally Acclaimed Films</option>
                                 <option value='3'>Top 10 Production Companies and their Highest-rated Film</option>
                                 <option value='4'>Films by Actor/Actress</option>
@@ -63,68 +63,7 @@
     
     {{> none_found }}  
     <div class="container page2"> 
-        {{#if movies}}
-        <div class="container header-page2"> 
-            <div class="centered">
-                <h1>MOVIES</h1>
-            </div>
-        </div>
-        <div class="container lists"> 
-            <div class="container input-list">
-                <div class="row"> 
-                    <div class="col-lg-9 text-left">
-                        <h2>Cleopatra</h2>
-                    </div>
-                    <div class="col-lg-3 text-right">
-                        <h2>1911</h2>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <h3>Charles L. Gaskill | 100</h3>
-                </div>
-                <div class="row text-left">
-                    <h3>Drama, History</h3>
-                </div>
-                <hr>
-            </div>
-
-            <div class="container input-list">
-                <div class="row"> 
-                    <div class="col-lg-9 text-left">
-                        <h2>From the Manger to the Cross; or...</h2>
-                    </div>
-                    <div class="col-lg-3 text-right">
-                        <h2>1912</h2>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <h3>Sidney Olcott | 60</h3>
-                </div>
-                <div class="row text-left">
-                    <h3>Biography, Drama</h3>
-                </div>
-                <hr>
-            </div>
-
-            <div class="container input-list">
-                <div class="row"> 
-                    <div class="col-lg-9 text-left">
-                        <h2>Amore di Madre</h2>
-                    </div>
-                    <div class="col-lg-3 text-right">
-                        <h2>1914</h2>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <h3>D.W. Griffith | 55</h3>
-                </div>
-                <div class="row text-left">
-                    <h3>Drama</h3>
-                </div>
-                <hr>
-            </div>
-        </div>
-        {{/if}}
+        {{> english_films}}
 
         <!--Movies with Metascore-->
         {{> universally_acclaimed }} <!-- Partials -->
