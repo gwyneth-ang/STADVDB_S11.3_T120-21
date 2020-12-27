@@ -63,24 +63,30 @@
     <div class="loading">
         Loading...
     </div>
-    
-    {{> none_found }}  
-    <div class="container page2"> 
-        {{> english_films}}
+    <div id="none-found">
+    {{> none_found }}
+    </div>
+
+    <div class="container page2">
+        <div id="english-movies">
+            {{> english_films}}
+        </div>
 
         <!--Movies with Metascore-->
-        {{> universally_acclaimed }} <!-- Partials -->
+        <div id="universally-acclaimed">
+            {{> universally_acclaimed }} <!-- Partials -->
+        </div>
         
         {{!-- {{#if moviesMetascore}}
-        <div class="container header-page2"> 
+        <div class="container header-page2">
             <div class="centered">
                 <h1>MOVIES</h1>
                 <h3>With Metascore</h3>
             </div>
         </div>
-        <div class="container lists"> 
+        <div class="container lists">
             <div class="container input-list">
-                <div class="row"> 
+                <div class="row">
                     <div class="col-lg-9 text-left">
                         <h2>Cleopatra</h2>
                     </div>
@@ -103,19 +109,29 @@
         {{/if}} --}}
 
         <!--Top 10 Production Companies and their Highest-rated Film-->
-        {{> top10_production_companies_films }} <!-- Partials -->
+        <div id="production-companies">
+            {{> top10_production_companies_films }} <!-- Partials -->
+        </div>
 
         <!--Films by actor/actress-->
-        {{> actor_films }} <!-- Partials -->
+        <div id="actor-films">
+            {{> actor_films }} <!-- Partials -->
+        </div>
 
         <!--Years with highest and Lowest Rated Films-->
-        {{> years_rating }} <!-- Partials -->
+        <div id="years-rating">
+            {{> years_rating }} <!-- Partials -->
+        </div>
 
         <!--Character played/job by specific person in a specific film-->
-        {{> character_job_actor }} <!-- Partials -->
+        <div id="character-job-actor">
+            {{> character_job_actor }} <!-- Partials -->
+        </div>
         
         <!--Best Year in Film of a given person-->
-        {{> best_year}}
+        <div id="best-year">
+            {{> best_year}}
+        </div>
 
     </div>
     <script type="text/javascript" src="/javascripts/checkQuery.js"></script>

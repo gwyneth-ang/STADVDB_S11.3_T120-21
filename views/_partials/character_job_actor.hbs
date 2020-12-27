@@ -1,23 +1,21 @@
-<div id="character-job-actor">
-    {{#if characterJobActor}}
-    <div class="container lists"> 
-        <div class="container input-list">
-            {{#each characterJobActor}}   
-            {{ printOnceNameAndAve name Ordering }}
-            <div class="row"> 
-                <div class="col-lg-9 text-left">
-                    <h2>{{title}}</h2>
-                </div>
+{{#if characterJobActor}}
+<div class="container lists">
+    <div class="container input-list">
+        {{#each characterJobActor}}
+        {{ printOnceNameAndAve name Ordering }}
+        <div class="row">
+            <div class="col-lg-9 text-left">
+                <h2>{{title}}</h2>
             </div>
-            <div class="row text-left">
-                <h3>Job: {{Job}}</h3>
-            </div>
-            <div class="row text-left">
-                <h3>Character/s Played: {{Characters}}</h3>
-            </div>
-            <hr>
-            {{/each}}
         </div>
-    </div>  
-    {{/if}}
+        <div class="row text-left">
+            <h3>Job: {{Job}}</h3>
+        </div>
+        <div class="row text-left">
+            <h3>Character/s Played: {{Characters}}</h3>
+        </div>
+        <hr>
+        {{/each}}
+    </div>
 </div>
+{{/if}}

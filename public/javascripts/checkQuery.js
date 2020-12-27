@@ -65,7 +65,14 @@ $(document).ready(function() {
             } else if (selectValue === '6') {
                 selectedSix();
             } else if (selectValue === '7') {
-                selectedSeventh();
+                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
+                if (isEmptySearchInput) {
+                    alert("Please input an actor/actress");
+                    $(".loading").hide();
+                }
+                else {
+                    selectedSeventh();
+                }
             } else {
                 $(".loading").hide();
             }
@@ -88,7 +95,7 @@ function hideAll() {
     $("#actor-films").hide();
     $("#universally-acclaimed").hide();
     $("#character-job-actor").hide();
-    $("#best_year").hide();
+    $("#best-year").hide();
 }
 
 function selectedOne() {
