@@ -15,11 +15,17 @@ $(document).ready(function() {
         $("#search-box").val("")
         $("#search-box").attr("placeholder", "Search");
 
+        //for actor names datalist
+        $("#search-box").removeAttr("list");
+
         selectValue = $("#drop-box").val();
         if (selectValue === '1' || selectValue === '2' || selectValue == '3') {
             $("#search-box").prop("disabled", true);
         } else if (selectValue === '4' || selectValue === '7') {
             $("#search-box").attr("placeholder", "Input an actor/actress");
+            //add datalist for actor names
+            showActorsDatalist();
+            $("#search-box").attr("list", "actors-name-list");
         } else if (selectValue === '5') {
             $("#search-box").attr("placeholder", "Input a year");
         } else if (selectValue === '6') {
@@ -46,16 +52,32 @@ $(document).ready(function() {
             } else if (selectValue === '3') {
                 selectedThree();
             } else if (selectValue === '4') {
-                selectedFour();
+                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
+                if (isEmptySearchInput) {
+                    alert("Please input an actor/actress");
+                    $(".loading").hide();
+                }
+                else {
+                    selectedFour();
+                }
             } else if (selectValue === '5') {
                 selectedFive();
             } else if (selectValue === '6') {
                 selectedSix();
             } else if (selectValue === '7') {
                 selectedSeventh();
+            } else {
+                $(".loading").hide();
             }
         });
 
+    // for actor names datalist
+    $("#search-box").on('keyup change', function() {
+        let selectedValue = $("#drop-box").val();
+        if (selectedValue === '4' || selectedValue === '7') {
+            showActorsDatalist();
+        }
+    });
 });
 
 function hideAll() {
@@ -159,6 +181,14 @@ function selectedSeventh() {
         $("#none-found").show();
         $(".loading").hide();
         window.location.href = '#best-year';
+    });
+}
+
+function showActorsDatalist() {
+    let searchInput = $("#search-box").val();
+    $.post('/actorNamesQuery', { searchInput: searchInput }, resp => {
+        $("#actors-datalist").html(resp);
+        $("#actors-datalist").show();
     });
 }
 

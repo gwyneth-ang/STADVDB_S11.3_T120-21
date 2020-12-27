@@ -283,7 +283,21 @@ const searchController = {
         });
     },
 
+    postActorNamesQuery: (req, res) => {
+        const { searchInput } = req.body;
 
+        let query =
+            `SELECT name
+             FROM names
+             WHERE name like "%${searchInput}%"
+             LIMIT 5;`;
+
+        db.query(query, (err, result) => {
+            return res.render('_partials/actors_datalist', { actorsList: result }, function(err, partial) {
+                res.send(partial);
+            });
+        });
+    },
 
 };
 
