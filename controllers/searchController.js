@@ -5,9 +5,9 @@ const searchController = {
     postSearchFirstQuery: (req, res) => {
         let firstquery =
             `SELECT title, year, genre, director, duration
-            FROM Movies
-            WHERE Language = "English"
-            ORDER BY year DESC;`;
+             FROM Movies
+             WHERE Language = "English"
+             ORDER BY year DESC;`;
 
         db.query(firstquery, (err, result) => {
             return res.render('_partials/english_films', { movies: result },
