@@ -33,36 +33,31 @@ const searchController = {
 
     postSearchThirdQuery: (req, res) => {
         let thirdQuery1 =
-            `SELECT T1.production_company, COUNT(T1.production_company) AS number_of_movies, FORMAT(AVG(T1.weighted_average_vote), 2) AS average_vote_of_movies
-             FROM 
-                ( SELECT m.imdb_title_id, m.production_company, r.weighted_average_vote
-                  FROM   Movies m
-                  JOIN   Ratings r
-                  ON     m.imdb_title_id = r.imdb_title_id
-                ) AS T1
-             GROUP BY T1.production_company
+            `SELECT production_company, COUNT(production_company) AS number_of_movies, FORMAT(AVG(weighted_average_vote), 2) AS average_vote_of_movies
+             FROM Movies m
+             JOIN Ratings r
+             ON m.imdb_title_id = r.imdb_title_id
+             GROUP BY production_company
              HAVING number_of_movies >= 200
              ORDER BY average_vote_of_movies DESC
              LIMIT 10;`;
+
         let thirdQuery2 =
             `SELECT production_company, title, year, genre, director, duration, MAX(weighted_average_vote) AS rating
              FROM Movies m
-             JOIN Ratings r ON m.imdb_title_id = r.imdb_title_id
+             JOIN Ratings r 
+             ON m.imdb_title_id = r.imdb_title_id
              WHERE production_company IN
                 (SELECT production_company
-                    FROM 
-                       ( SELECT T1.production_company, COUNT(T1.production_company) AS number_of_movies, AVG(T1.weighted_average_vote) AS average_vote_of_movies
-                         FROM 
-                            ( SELECT m.imdb_title_id, m.production_company, r.weighted_average_vote
-                              FROM Movies m
-                              JOIN Ratings r
-                              ON m.imdb_title_id = r.imdb_title_id) AS T1
-                              GROUP BY T1.production_company
-                              HAVING number_of_movies >= 200
-                              ORDER BY average_vote_of_movies DESC
-                              LIMIT 10
-                            ) AS T2
-                       )
+                 FROM 
+                    (SELECT production_company, COUNT(production_company) AS number_of_movies, FORMAT(AVG(weighted_average_vote), 2) AS average_vote_of_movies
+                     FROM Movies m
+                     JOIN Ratings r
+                     ON m.imdb_title_id = r.imdb_title_id
+                     GROUP BY production_company
+                     HAVING number_of_movies >= 200
+                     ORDER BY average_vote_of_movies DESC
+                     LIMIT 10) AS T2)
              GROUP BY production_company
              ORDER BY rating DESC;`;
 
@@ -93,7 +88,7 @@ const searchController = {
              FROM Movies, Title_principals, Names
              WHERE Names.imdb_name_id = Title_principals.imdb_name_id 
              AND Title_principals.imdb_title_id = Movies.imdb_title_id
-             AND (Title_principals.category = "actor" OR Title_principals.category = "actress")
+             AND Title_principals.category IN ("actor", "actress")
              AND Names.name like "%${searchInput}%";`;
 
         db.query(fourthQuery1, (err, result1) => {
