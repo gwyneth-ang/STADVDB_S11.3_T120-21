@@ -5,7 +5,7 @@ const searchController = {
     postSearchFirstQuery: (req, res) => {
         let firstquery =
             `SELECT title, year, genre, director, duration
-            FROM movies
+            FROM Movies
             WHERE Language = "English"
             ORDER BY year DESC;`;
 
@@ -20,7 +20,7 @@ const searchController = {
     postSearchSecondQuery: (req, res) => {
         let secondquery =
             `SELECT title, year, genre, director, metascore
-             FROM movies
+             FROM Movies
              WHERE metascore >= 81
              ORDER BY metascore DESC;`;
 
@@ -122,9 +122,9 @@ const searchController = {
         let fifthQueryHigh =
             `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
             FROM             (SELECT    m2.year, MAX(r2.weighted_average_vote) AS 'Ratings'
-                              FROM      MOVIES m2, RATINGS r2
+                              FROM      Movies m2, Ratings r2
                               WHERE     r2.imdb_title_id=m2.imdb_title_id
-                              GROUP BY m2.year) T1, MOVIES m1, TITLE_PRINCIPALS tp1, RATINGS r1
+                              GROUP BY m2.year) T1, Movies m1, Title_principals tp1, Ratings r1
             WHERE  (T1.year = m1.year 
                     AND T1.Ratings = r1.weighted_average_vote)
                     AND r1.imdb_title_id=m1.imdb_title_id
@@ -137,9 +137,9 @@ const searchController = {
         let fifthQueryLow =
             `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
             FROM           (SELECT    m2.year, MIN(r2.weighted_average_vote) AS 'Ratings'
-                            FROM      MOVIES m2, RATINGS r2
+                            FROM      Movies m2, Ratings r2
                             WHERE     r2.imdb_title_id=m2.imdb_title_id
-                            GROUP BY m2.year) T1, MOVIES m1, TITLE_PRINCIPALS tp1, RATINGS r1
+                            GROUP BY m2.year) T1, Movies m1, Title_principals tp1, Ratings r1
             WHERE  (T1.year = m1.year 
                     AND T1.Ratings = r1.weighted_average_vote)
                     AND r1.imdb_title_id=m1.imdb_title_id
@@ -175,17 +175,16 @@ const searchController = {
         const { searchInput, page } = req.body;
 
         let countQuery =
-            `SELECT T1.Ordering, N.name, M.title, COALESCE(P.category,'None') AS 'Job', TRIM(TRAILING ']' FROM TRIM(LEADING '[' 
-                    FROM(REPLACE(COALESCE(P.characters,'None'), '"', '')))) AS 'Characters'
+            `SELECT COUNT(*) AS totalCount
              FROM (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
-                   FROM   title_principals P1 
-                   JOIN   movies M1 ON P1.imdb_title_id = M1.imdb_title_id
-                   JOIN   names N1 ON N1.imdb_name_id = P1.imdb_name_id 
+                   FROM   Title_principals P1 
+                   JOIN   Movies M1 ON P1.imdb_title_id = M1.imdb_title_id
+                   JOIN   Names N1 ON N1.imdb_name_id = P1.imdb_name_id 
                    WHERE N1.name LIKE "%${searchInput}%"
                    GROUP BY N1.name) T1
-             JOIN  names N ON T1.imdb_name_id = N.imdb_name_id
-             JOIN  title_principals P ON N.imdb_name_id = P.imdb_name_id 
-             JOIN  movies M ON P.imdb_title_id = M.imdb_title_id;
+             JOIN  Names N ON T1.imdb_name_id = N.imdb_name_id
+             JOIN  Title_principals P ON N.imdb_name_id = P.imdb_name_id 
+             JOIN  Movies M ON P.imdb_title_id = M.imdb_title_id;
             `;
 
         /*Get total items*/
@@ -206,21 +205,19 @@ const searchController = {
 
             /*Query items*/
             let sixthQuery = 
-                `SELECT T1.Ordering, N.name, M.title, IFNULL(P.category, 'None') AS 'Job', 
-                        TRIM(TRAILING ']' FROM TRIM(LEADING '[' 
-                FROM (REPLACE(IFNULL(P.characters, 'None'), '"', '')))) AS 'Characters'
-                FROM title_principals P, movies M, names N,
-                     (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
-                      FROM title_principals P1, movies M1, names N1
-                      WHERE N1.imdb_name_id = P1.imdb_name_id 
-                      AND P1.imdb_title_id = M1.imdb_title_id
-                      AND N1.name LIKE "%${searchInput}%"
-                     GROUP BY N1.name) T1
-                WHERE T1.imdb_name_id=N.imdb_name_id
-                      AND N.imdb_name_id = P.imdb_name_id 
-                      AND P.imdb_title_id = M.imdb_title_id
-                LIMIT ${perPage}
-                OFFSET ${(page - 1) * perPage};
+                `SELECT T1.Ordering, N.name, M.title, COALESCE(P.category,'None') AS 'Job', TRIM(TRAILING ']' FROM TRIM(LEADING '[' 
+                        FROM(REPLACE(COALESCE(P.characters,'None'), '"', '')))) AS 'Characters'
+                 FROM (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
+                 FROM   Title_principals P1 
+                 JOIN   Movies M1 ON P1.imdb_title_id = M1.imdb_title_id
+                 JOIN   Names N1 ON N1.imdb_name_id = P1.imdb_name_id 
+                 WHERE N1.name LIKE "%${searchInput}%"
+                 GROUP BY N1.name) T1
+                 JOIN  Names N ON T1.imdb_name_id = N.imdb_name_id
+                 JOIN  Title_principals P ON N.imdb_name_id = P.imdb_name_id 
+                 JOIN  Movies M ON P.imdb_title_id = M.imdb_title_id
+                 LIMIT ${perPage}
+                 OFFSET ${(page - 1) * perPage};
                 `;
 
             db.query(sixthQuery,(err,result) => {
@@ -242,13 +239,12 @@ const searchController = {
         console.log(name);
         let seventhquery =
             `SELECT name, year, b.best_year_rating, title,  max(weighted_average_vote) as movie_rating, job, characters
-            FROM names n , title_principals t, movies m, ratings r, 
+            FROM Names n , Title_principals t, Movies m, Ratings r, 
                 (SELECT a.name as best_name, a.year as best_year, 
             max(year_rating) as best_year_rating
                 FROM ( SELECT name, year, avg(weighted_average_vote) 
             as year_rating
-                        FROM names n , title_principals t, movies m,
-            ratings r
+                        FROM Names n , Title_principals t, Movies m, Ratings r
                         WHERE n.imdb_name_id = t.imdb_name_id 
                             AND t.imdb_title_id = m.imdb_title_id 
                             AND m.imdb_title_id = r.imdb_title_id
