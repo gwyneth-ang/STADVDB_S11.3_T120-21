@@ -21,16 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2b6a524d-bb2a-4acd-9ee3-7a9290303dd7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/checkQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/checkQuery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/actor_films.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/actor_films.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/best_year.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/best_year.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/character_job_actor.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/character_job_actor.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/english_films.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/english_films.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/none_found.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/none_found.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/top10_production_companies_films.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/top10_production_companies_films.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/universally_acclaimed.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/universally_acclaimed.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/_partials/years_rating.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/_partials/years_rating.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/home.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/home.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/searchController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/searchController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +65,7 @@
       <workItem from="1608980848492" duration="12000" />
       <workItem from="1608980871697" duration="7914000" />
       <workItem from="1609073167076" duration="4704000" />
+      <workItem from="1609745439982" duration="679000" />
     </task>
     <servers />
   </component>
