@@ -121,36 +121,32 @@ const searchController = {
 
         let fifthQueryHigh =
             `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
-             FROM            MOVIES m1, RATINGS r1, TITLE_PRINCIPALS tp1,
-                ( SELECT     m2.year, MAX(r2.weighted_average_vote) AS 'Ratings'
-                  FROM       MOVIES m2, RATINGS r2
-                  WHERE      r2.imdb_title_id=m2.imdb_title_id
-                  GROUP BY   m2.year
-                ) T1
-             WHERE (T1.year = m1.year 
+            FROM             (SELECT    m2.year, MAX(r2.weighted_average_vote) AS 'Ratings'
+                              FROM      MOVIES m2, RATINGS r2
+                              WHERE     r2.imdb_title_id=m2.imdb_title_id
+                              GROUP BY m2.year) T1, MOVIES m1, TITLE_PRINCIPALS tp1, RATINGS r1
+            WHERE  (T1.year = m1.year 
                     AND T1.Ratings = r1.weighted_average_vote)
                     AND r1.imdb_title_id=m1.imdb_title_id
                     AND m1.imdb_title_id=tp1.imdb_title_id
                     AND tp1.category ="director"
                     AND T1.year LIKE "%${searchInput}%"
-             ORDER BY year ASC;
+            ORDER BY          T1.year ASC; 
             `;
 
         let fifthQueryLow =
             `SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
-             FROM            MOVIES m1, RATINGS r1, TITLE_PRINCIPALS tp1,
-                ( SELECT     m2.year, MIN(r2.weighted_average_vote) AS 'Ratings'
-                  FROM       MOVIES m2, RATINGS r2
-                  WHERE      r2.imdb_title_id=m2.imdb_title_id
-                  GROUP BY   m2.year
-                ) T1
-             WHERE (T1.year = m1.year 
+            FROM           (SELECT    m2.year, MIN(r2.weighted_average_vote) AS 'Ratings'
+                            FROM      MOVIES m2, RATINGS r2
+                            WHERE     r2.imdb_title_id=m2.imdb_title_id
+                            GROUP BY m2.year) T1, MOVIES m1, TITLE_PRINCIPALS tp1, RATINGS r1
+            WHERE  (T1.year = m1.year 
                     AND T1.Ratings = r1.weighted_average_vote)
                     AND r1.imdb_title_id=m1.imdb_title_id
                     AND m1.imdb_title_id=tp1.imdb_title_id
                     AND tp1.category ="director"
                     AND T1.year LIKE "%${searchInput}%"
-             ORDER BY       year ASC;
+            ORDER BY          T1.year ASC; 
             `;
 
         db.query(fifthQueryHigh, (err, highResult) => {
@@ -179,17 +175,17 @@ const searchController = {
         const { searchInput, page } = req.body;
 
         let countQuery =
-            `SELECT COUNT(*) AS 'totalCount'
-             FROM title_principals P, movies M, names N,
-                (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
-                FROM title_principals P1, movies M1, names N1
-                WHERE N1.imdb_name_id = P1.imdb_name_id 
-                AND P1.imdb_title_id = M1.imdb_title_id
-                AND N1.name LIKE "%${searchInput}%"
-                GROUP BY N1.name) T1
-             WHERE T1.imdb_name_id=N.imdb_name_id
-                AND N.imdb_name_id = P.imdb_name_id 
-                AND P.imdb_title_id = M.imdb_title_id;
+            `SELECT T1.Ordering, N.name, M.title, COALESCE(P.category,'None') AS 'Job', TRIM(TRAILING ']' FROM TRIM(LEADING '[' 
+                    FROM(REPLACE(COALESCE(P.characters,'None'), '"', '')))) AS 'Characters'
+             FROM (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
+                   FROM   title_principals P1 
+                   JOIN   movies M1 ON P1.imdb_title_id = M1.imdb_title_id
+                   JOIN   names N1 ON N1.imdb_name_id = P1.imdb_name_id 
+                   WHERE N1.name LIKE "%${searchInput}%"
+                   GROUP BY N1.name) T1
+             JOIN  names N ON T1.imdb_name_id = N.imdb_name_id
+             JOIN  title_principals P ON N.imdb_name_id = P.imdb_name_id 
+             JOIN  movies M ON P.imdb_title_id = M.imdb_title_id;
             `;
 
         /*Get total items*/
