@@ -8,12 +8,14 @@ const itemsPerPage = 100;
 
 $(document).ready(function() {
     $(".loading").hide();
+    hideAll();
 
     $('#drop-box').on('change', function(e) {
         $("#search-box").prop("disabled", false);
         //clear text box
         $("#search-box").val("")
         $("#search-box").attr("placeholder", "Search");
+        $("#search-box").css("cursor", "default");
 
         //for actor names datalist
         $("#search-box").removeAttr("list");
@@ -21,6 +23,8 @@ $(document).ready(function() {
         selectValue = $("#drop-box").val();
         if (selectValue === '1' || selectValue === '2' || selectValue == '3') {
             $("#search-box").prop("disabled", true);
+            $("#search-box").attr("placeholder", "Search Disabled");
+            $("#search-box").css("cursor", "not-allowed");
         } else if (selectValue === '4' || selectValue === '7') {
             $("#search-box").attr("placeholder", "Input an actor/actress");
             //add datalist for actor names
@@ -63,7 +67,14 @@ $(document).ready(function() {
             } else if (selectValue === '5') {
                 selectedFive();
             } else if (selectValue === '6') {
-                selectedSix();
+                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
+                if (isEmptySearchInput) {
+                    alert("Please input a name");
+                    $(".loading").hide();
+                }
+                else {
+                    selectedSix();
+                }
             } else if (selectValue === '7') {
                 let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
                 if (isEmptySearchInput) {
@@ -279,7 +290,6 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
                 }
                 pageNum += offset;
 
-                //TODO: changed
                 $("#character-job-actor").html(resp.partial);
                 $("#character-job-actor").show();
 

@@ -10,6 +10,13 @@ const searchController = {
              ORDER BY year DESC;`;
 
         db.query(firstquery, (err, result) => {
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
+
             return res.render('_partials/english_films', { movies: result },
                 function(err, partial) {
                     res.send(partial);
@@ -25,6 +32,13 @@ const searchController = {
              ORDER BY metascore DESC;`;
 
         db.query(secondquery, (err, result) => {
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
+
             return res.render('_partials/universally_acclaimed', { res: result }, function(err, partial) {
                 res.send(partial);
             });
@@ -62,10 +76,22 @@ const searchController = {
              ORDER BY rating DESC;`;
 
         db.query(thirdQuery1, (err, result1) => {
-            if (err) throw err;
+            // if (err) throw err;
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
 
             db.query(thirdQuery2, (err, result2) => {
-                if (err) throw err;
+                // if (err) throw err;
+                if (err) {
+                    return res.render('_partials/error', { error }, function(err, partial){
+                        res.send(partial);
+                    });
+                }
+                
                 return res.render('_partials/top10_production_companies_films', { topCompanies: result1, topCompanyFilms: result2 }, function(err, partial) {
                     res.send(partial);
                 });
@@ -83,6 +109,7 @@ const searchController = {
              AND Title_principals.imdb_title_id = Movies.imdb_title_id
              AND (Title_principals.category = "actor" OR Title_principals.category = "actress")
              AND Names.name like "%${searchInput}%";`;
+
         let fourthQuery2 =
             `SELECT title, year, genre, director, duration
              FROM Movies, Title_principals, Names
@@ -92,10 +119,21 @@ const searchController = {
              AND Names.name like "%${searchInput}%";`;
 
         db.query(fourthQuery1, (err, result1) => {
-            if (err) throw err;
+            // if (err) throw err;
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
 
             db.query(fourthQuery2, (err, result2) => {
-                if (err) throw err;
+                // if (err) throw err;
+                if (err) {
+                    return res.render('_partials/error', { error }, function(err, partial){
+                        res.send(partial);
+                    });
+                }
 
                 if (result2.length === 0){
                     let none = "None found: Please search again";
@@ -145,10 +183,21 @@ const searchController = {
             `;
 
         db.query(fifthQueryHigh, (err, highResult) => {
-            if (err) throw err;
+            // if (err) throw err;
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
 
             db.query(fifthQueryLow, (err, lowResult) => {
-                if (err) throw err;
+                // if (err) throw err;
+                if (err) {
+                    return res.render('_partials/error', { error }, function(err, partial){
+                        res.send(partial);
+                    });
+                }
 
                 if (highResult.length === 0 && lowResult.length === 0){
                     let none = "None found: Please search again";
@@ -184,7 +233,13 @@ const searchController = {
 
         /*Get total items*/
         db.query(countQuery, (err, count) => {
-            if (err) throw err;
+            // if (err) throw err;
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
 
             // Display 100 items per page
             const perPage = 100, totalCount = count[0].totalCount;
@@ -216,7 +271,12 @@ const searchController = {
                 `;
 
             db.query(sixthQuery,(err,result) => {
-                if (err) throw err;
+                // if (err) throw err;
+                if (err) {
+                    return res.render('_partials/error', { error }, function(err, partial){
+                        res.send(partial);
+                    });
+                }
 
                 return res.render('_partials/character_job_actor', { characterJobActor: result }, function(err, partial) {
                     res.send({
@@ -231,7 +291,7 @@ const searchController = {
     postSearchSeventhQuery: (req, res) => {
         const { searchInput } = req.body;
         const name = req.body.searchInput;
-        console.log(name);
+
         let seventhquery =
             `SELECT name, year, b.best_year_rating, title,  max(weighted_average_vote) as movie_rating, job, characters
             FROM Names n , Title_principals t, Movies m, Ratings r, 
@@ -257,6 +317,13 @@ const searchController = {
             ORDER BY name;`;
 
         db.query(seventhquery, (err, result) => {
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
+            
             if (result.length === 0){
                 let none = "None found: Please search again";
                 return res.render('_partials/none_found', { res: none }, function(err, partial){

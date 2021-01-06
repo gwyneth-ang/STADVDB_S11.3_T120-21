@@ -17,22 +17,23 @@
 </head>
 
 <body>
-    <div class="container header">
-        <div class="main-container"> 
+    <div class="header">
+        <div class="main-container">
             <div class="centered">
                 <h1> PELICULA </h1>
                 <h3>MOVIES THAT SUIT YOU</h3>
             </div>
             <div class="centered searchbar">
                 <form onsubmit="event.preventDefault();">
-                    <div class="form-row">
-                        <div class="form-group col-md-8">
-                            <input type="text" class="form-control" id="search-box" placeholder="Search" name="search_input">
+                    <div class="form-row justify-content-center justify-content-md-end">
+                        <div class="form-group col-md-1 col-0"></div>
+                        <div class="form-group col-md-6 col-11 mr-md-1">
+                            <input type="text" class="form-control pl-4" id="search-box" placeholder="Search" name="search_input">
                         </div>
                         <div id="actors-datalist">
                             {{> actors_datalist}}
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2 col-8 ml-md-2">
                             <select id="drop-box" class="form-control">
                                 <option selected>Choose...</option>
                                 <option value='1'>List of English Movies</option>
@@ -44,11 +45,12 @@
                                 <option value='7'>Best Year in Film for a Specific Person and the Best Movie in that Given Year</option>
                             </select>
                         </div>
+                        <div class="form-group col-md-2 col-0"></div>
                     </div>
                 </form>
             </div>
             <div class ="d-flex justify-content-center">
-                <button id="searchBtn" class = "btn">Search</button>
+                <button id="searchBtn" class = "btn"><i class="fas fa-search mr-2"></i>Search</button>
             </div>
             <!-- Button to go to searchbar-->
             <button id="upBtn" class="btn" onclick="document.documentElement.scrollTop = 0;">^</button>
@@ -63,11 +65,12 @@
     <div class="loading">
         Loading...
     </div>
-    <div id="none-found">
+    <div class="my-4" id="none-found">
     {{> none_found }}
     </div>
 
     <div class="container page2">
+        <!--English Movies-->
         <div id="english-movies">
             {{> english_films}}
         </div>
@@ -76,37 +79,6 @@
         <div id="universally-acclaimed">
             {{> universally_acclaimed }} <!-- Partials -->
         </div>
-        
-        {{!-- {{#if moviesMetascore}}
-        <div class="container header-page2">
-            <div class="centered">
-                <h1>MOVIES</h1>
-                <h3>With Metascore</h3>
-            </div>
-        </div>
-        <div class="container lists">
-            <div class="container input-list">
-                <div class="row">
-                    <div class="col-lg-9 text-left">
-                        <h2>Cleopatra</h2>
-                    </div>
-                    <div class="col-lg-3 text-right">
-                        <h2>1911</h2>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <h3>Charles L. Gaskill | 100</h3>
-                </div>
-                <div class="row text-left">
-                    <h3>Drama, History</h3>
-                </div>
-                <div class="row text-left">
-                    <h3>Metascore: 80</h3>
-                </div>
-                <hr>
-            </div>
-        </div>
-        {{/if}} --}}
 
         <!--Top 10 Production Companies and their Highest-rated Film-->
         <div id="production-companies">
