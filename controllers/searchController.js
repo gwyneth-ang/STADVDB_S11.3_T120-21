@@ -76,7 +76,6 @@ const searchController = {
              ORDER BY rating DESC;`;
 
         db.query(thirdQuery1, (err, result1) => {
-            // if (err) throw err;
             if (err) {
                 let error = "Something went wrong! Please try again.";
                 return res.render('_partials/error', { error }, function(err, partial){
@@ -85,7 +84,6 @@ const searchController = {
             }
 
             db.query(thirdQuery2, (err, result2) => {
-                // if (err) throw err;
                 if (err) {
                     let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){
@@ -120,7 +118,6 @@ const searchController = {
              AND Names.name like "%${searchInput}%";`;
 
         db.query(fourthQuery1, (err, result1) => {
-            // if (err) throw err;
             if (err) {
                 let error = "Something went wrong! Please try again.";
                 return res.render('_partials/error', { error }, function(err, partial){
@@ -129,7 +126,6 @@ const searchController = {
             }
 
             db.query(fourthQuery2, (err, result2) => {
-                // if (err) throw err;
                 if (err) {
                     let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){
@@ -185,7 +181,6 @@ const searchController = {
             `;
 
         db.query(fifthQueryHigh, (err, highResult) => {
-            // if (err) throw err;
             if (err) {
                 let error = "Something went wrong! Please try again.";
                 return res.render('_partials/error', { error }, function(err, partial){
@@ -194,7 +189,6 @@ const searchController = {
             }
 
             db.query(fifthQueryLow, (err, lowResult) => {
-                // if (err) throw err;
                 if (err) {
                     let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){
@@ -236,7 +230,6 @@ const searchController = {
 
         /*Get total items*/
         db.query(countQuery, (err, count) => {
-            // if (err) throw err;
             if (err) {
                 let error = "Something went wrong! Please try again.";
                 return res.render('_partials/error', { error }, function(err, partial){
@@ -276,7 +269,6 @@ const searchController = {
                 `;
 
             db.query(sixthQuery,(err,result) => {
-                // if (err) throw err;
                 if (err) {
                     let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){

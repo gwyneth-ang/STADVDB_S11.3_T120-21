@@ -122,7 +122,6 @@ function selectedOne() {
 function selectedTwo() {
     scrollToLoading();
     $.post('/secondQuery', resp => {
-        // console.log(resp);
         $("#universally-acclaimed").html(resp);
         $("#universally-acclaimed").show();
         $(".loading").hide();
@@ -133,10 +132,8 @@ function selectedTwo() {
 function selectedThree() {
     scrollToLoading();
     $.post('/thirdQuery', resp => {
-        // console.log(resp);
         $("#production-companies").html(resp);
         $("#production-companies").show();
-
         $(".loading").hide();
         window.location.href = '#production-companies-and-films';
     });
@@ -145,10 +142,8 @@ function selectedThree() {
 function selectedFour() {
     scrollToLoading();
     $.post('/fourthQuery', { searchInput: searchInput }, resp => {
-        // console.log(resp);
         $("#actor-films").html(resp);
         $("#actor-films").show();
-
         $(".loading").hide();
         window.location.href = '#actor-films';
     });
@@ -157,10 +152,8 @@ function selectedFour() {
 function selectedFive() {
     scrollToLoading();
     $.post('/fifthQuery', { searchInput: searchInput }, resp => {
-        // console.log(resp);
         $("#years-rating").html(resp);
         $("#years-rating").show();
-        //in case none found
         $("#none-found").show();
         $(".loading").hide();
         window.location.href = '#years-rating';
@@ -170,7 +163,6 @@ function selectedFive() {
 function selectedSix() {
     scrollToLoading();
     $.post('/sixthQuery', { searchInput: searchInput, page: 1 }, resp => {
-        // console.log(resp);
         $("#character-job-actor").html(resp.partial);
         $("#character-job-actor").show();
 

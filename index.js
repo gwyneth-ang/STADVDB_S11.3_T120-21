@@ -58,22 +58,11 @@ global.db = db;
 
 db.connect((err) => {
     if (err) {
-        // console.log("Here");
         throw err;
     } else {
         console.log('Connected to database');
     }
 });
-
-//sample query
-/*let resident = "SELECT r.ResidentID FROM Resident r JOIN User u ON u.UserID = r.UserID WHERE u.UserID =" + req.session.userID.userID +";";
-db.query(resident, (err, result) => {
-    if (result.length > 0)
-        res.redirect('/residentHome');
-    else
-        res.redirect('/login');
-    });*/
-
 
 //set routes
 const searchRouter = require('./routes/searchRouter');
