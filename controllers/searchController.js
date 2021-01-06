@@ -3,24 +3,52 @@ const searchController = {
     viewHomePage: (req, res) => res.render('home'),
 
     postSearchFirstQuery: (req, res) => {
-        let firstquery =
-            `SELECT title, year, genre, director, duration
+        const { page } = req.body;
+
+        let countQuery =
+            `SELECT COUNT(*) AS totalCount
              FROM Movies
              WHERE Language = "English"
              ORDER BY year DESC;`;
 
-        db.query(firstquery, (err, result) => {
+        db.query(countQuery, (err, count) => {
             if (err) {
                 let error = "Something went wrong! Please try again.";
                 return res.render('_partials/error', { error }, function(err, partial){
-                    res.send(partial);
+                    res.send({
+                        partial
+                    });
                 });
             }
 
-            return res.render('_partials/english_films', { movies: result },
-                function(err, partial) {
-                    res.send(partial);
+            // Display 100 items per page
+            const perPage = 100, totalCount = count[0].totalCount;
+
+            let firstquery =
+                `SELECT title, year, genre, director, duration
+                FROM Movies
+                WHERE Language = "English"
+                ORDER BY year DESC
+                LIMIT    ${perPage}
+                OFFSET ${(page - 1) * perPage}`;
+
+            db.query(firstquery, (err, result) => {
+                if (err) {
+                    let error = "Something went wrong! Please try again.";
+                    return res.render('_partials/error', { error }, function(err, partial){
+                        res.send({
+                            partial
+                        });
+                    });
+                }
+
+                return res.render('_partials/english_films', { movies: result }, function(err, partial) {
+                    res.send({
+                        partial,
+                        totalCount
+                    });
                 });
+            });
         });
     },
 
@@ -342,7 +370,7 @@ const searchController = {
 
         let query =
             `SELECT name
-             FROM names
+             FROM Names
              WHERE name like "%${searchInput}%"
              LIMIT 5;`;
 

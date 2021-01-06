@@ -111,9 +111,19 @@ function hideAll() {
 
 function selectedOne() {
     scrollToLoading();
-    $.post('/firstQuery', resp => {
-        $("#english-movies").html(resp);
+    $.post('/firstQuery', { page: 1 }, resp => {
+        $("#english-movies").html(resp.partial);
         $("#english-movies").show();
+
+        pagination = Math.ceil(resp.totalCount / itemsPerPage);
+        pageNum = 1;
+        pageStart = 1;
+        pageEnd = pagination > 5 ? 5 : pagination;
+
+        removePagination();
+        if (resp.totalCount > itemsPerPage)
+            setUpPagination(pagination, pageStart, pageEnd, pageNum);
+
         $(".loading").hide();
         window.location.href = '#english-movies';
     });
@@ -145,6 +155,7 @@ function selectedFour() {
         $("#actor-films").html(resp);
         $("#actor-films").show();
         $(".loading").hide();
+        $("#none-found").show();
         window.location.href = '#actor-films';
     });
 }
@@ -214,11 +225,11 @@ function scrollToLoading() {
 
 //CREDITS TO THE GROUPMATE IN STSWENG AND CCPADEV WHO MADE THE PAGINATION
 function removePagination() {
-    $('#pagination-char-job-actor .page-item').remove();
+    $('#pagination-all .page-item').remove();
 }
 
 function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
-    $('#pagination-char-job-actor').append(`
+    $('#pagination-all').append(`
         <li class="page-item">
         <a class="page-link" id="prevPage">
             Prev
@@ -227,7 +238,7 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
    `);
 
     for (var i = pageStart; i <= pageEnd; i++) {
-        $('#pagination-char-job-actor').append(
+        $('#pagination-all').append(
             '<li class="page-item' + ((i == pageNum) ? ' active' : '') + '">' +
             '<a class="page-link page-number">' +
             i +
@@ -236,7 +247,7 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
         );
     }
 
-    $('#pagination-char-job-actor').append(`
+    $('#pagination-all').append(`
         <li class="page-item">
         <a class="page-link"id="nextPage">
             Next
@@ -244,8 +255,10 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
         </li>
     `);
 
-    $('#pagination-char-job-actor .page-link').click(function() {
+    $('#pagination-all .page-link').click(function() {
         searchInput = $("#search-box").val();
+        selectValue = $("#drop-box").val();
+
         var offset = 0;
 
         if ($(this).attr('id') == 'nextPage')
@@ -263,41 +276,70 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
         if (pageNum + offset >= 1 && pageNum + offset <= pagination && offset != 0) {
             $(".loading").show();
             $("#character-job-actor").hide();
+            $("#english-movies").hide();
 
-            $.post('/sixthQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
-                if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
+            if (selectValue === '6') {
+                $.post('/sixthQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
+                    if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
 
-                    if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2 ||
-                        offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
-                        pageStart += offset;
-                        pageEnd += offset;
-                    } else if (offset > 0 && offset > maxPageShiftR) {
-                        pageStart += maxPageShiftR;
-                        pageEnd += maxPageShiftR;
-                    } else if (offset < 0 && -1 * offset > maxPageShiftL) {
-                        pageStart -= maxPageShiftL;
-                        pageEnd -= maxPageShiftL;
+                        if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2 ||
+                            offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
+                            pageStart += offset;
+                            pageEnd += offset;
+                        } else if (offset > 0 && offset > maxPageShiftR) {
+                            pageStart += maxPageShiftR;
+                            pageEnd += maxPageShiftR;
+                        } else if (offset < 0 && -1 * offset > maxPageShiftL) {
+                            pageStart -= maxPageShiftL;
+                            pageEnd -= maxPageShiftL;
+                        }
+
                     }
+                    pageNum += offset;
 
-                }
-                pageNum += offset;
+                    $("#character-job-actor").html(resp.partial);
+                    $("#character-job-actor").show();
 
-                $("#character-job-actor").html(resp.partial);
-                $("#character-job-actor").show();
+                    updatePagination(pageStart, pageNum);
+                    
+                    $("#none-found").show();
+                    $(".loading").hide();
+                    window.location.href = '#character-job-actor';
+                });
+            } else if (selectValue === '1') {
+                $.post('/firstQuery', { page: pageNum + offset }, resp => {
+                    if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
 
-                updatePagination(pageStart, pageNum)
+                        if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2 ||
+                            offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
+                            pageStart += offset;
+                            pageEnd += offset;
+                        } else if (offset > 0 && offset > maxPageShiftR) {
+                            pageStart += maxPageShiftR;
+                            pageEnd += maxPageShiftR;
+                        } else if (offset < 0 && -1 * offset > maxPageShiftL) {
+                            pageStart -= maxPageShiftL;
+                            pageEnd -= maxPageShiftL;
+                        }
 
-                //in case none found
-                $("#none-found").show();
-                $(".loading").hide();
-                window.location.href = '#character-job-actor';
-            });
+                    }
+                    pageNum += offset;
+
+                    $("#english-movies").html(resp.partial);
+                    $("#english-movies").show();
+
+                    updatePagination(pageStart, pageNum);
+
+                    $(".loading").hide();
+                    window.location.href = '#english-movies';
+                });
+            }
         }
     });
 }
 
 function updatePagination(pageStart, pageNum) {
-    $('#pagination-char-job-actor .page-number').each(function(index, element) {
+    $('#pagination-all .page-number').each(function(index, element) {
         $(element).text(pageStart + index);
         if ($(element).text() != pageNum)
             $(element).parent().removeClass('active');
