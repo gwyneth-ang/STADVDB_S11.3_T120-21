@@ -87,6 +87,7 @@ const searchController = {
             db.query(thirdQuery2, (err, result2) => {
                 // if (err) throw err;
                 if (err) {
+                    let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){
                         res.send(partial);
                     });
@@ -130,6 +131,7 @@ const searchController = {
             db.query(fourthQuery2, (err, result2) => {
                 // if (err) throw err;
                 if (err) {
+                    let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){
                         res.send(partial);
                     });
@@ -194,6 +196,7 @@ const searchController = {
             db.query(fifthQueryLow, (err, lowResult) => {
                 // if (err) throw err;
                 if (err) {
+                    let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){
                         res.send(partial);
                     });
@@ -237,7 +240,9 @@ const searchController = {
             if (err) {
                 let error = "Something went wrong! Please try again.";
                 return res.render('_partials/error', { error }, function(err, partial){
-                    res.send(partial);
+                    res.send({
+                        partial
+                    });
                 });
             }
 
@@ -273,8 +278,11 @@ const searchController = {
             db.query(sixthQuery,(err,result) => {
                 // if (err) throw err;
                 if (err) {
+                    let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial){
-                        res.send(partial);
+                        res.send({
+                            partial
+                        });
                     });
                 }
 
