@@ -4,6 +4,7 @@
    ${searchInput} are for the NodeJS code, when querying in MySQL this must be replaced with the value being searched for
 */
 
+/*INDEXES*/
 CREATE INDEX idx_year 
 ON Movies (year);
 
@@ -17,6 +18,7 @@ CREATE INDEX idx_movie ON Movies(title);
 CREATE INDEX idx_language ON Movies (language);
 
 CREATE INDEX idx_metascore ON Movies (metascore);
+
 
 /*Query 1*/
 SELECT title, year, genre, director, duration
