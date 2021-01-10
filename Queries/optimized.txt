@@ -1,0 +1,14 @@
+CREATE INDEX idx_year 
+ON Movies (year);
+
+CREATE INDEX idx_mix_category
+ON Title_principals (category, imdb_title_id);
+
+CREATE INDEX idx_name ON Names(name);
+
+CREATE INDEX idx_movie ON Movies(title);
+
+CREATE INDEX idx_language ON Movies (language);
+
+CREATE INDEX idx_metascore ON Movies (metascore);
+
