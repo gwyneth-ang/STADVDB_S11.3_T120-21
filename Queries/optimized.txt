@@ -1,3 +1,9 @@
+/* 
+   The following queries are the optimized queries used in the website
+   The create index are all queried directly to the db and done only once. They are not placed in the code.
+   ${searchInput} are for the NodeJS code, when querying in MySQL this must be replaced with the value being searched for
+*/
+
 CREATE INDEX idx_year 
 ON Movies (year);
 
