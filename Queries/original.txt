@@ -1,23 +1,23 @@
-Note: Original queries patterned with Node.js. The searchInput signifies the value that will be searched for.
+/* 
+   The following queries are the original queries which was not used in the website since the optimized queries were utilized.
+   ${searchInput} are for the NodeJS code. When querying in MySQL, this must be replaced with the value being searched for.
+*/
 
-List of English Movies
-
+/*List of English Movies (Query 1)*/
 SELECT title, year, genre, director, duration
 FROM movies
 WHERE language = "English"
 ORDER BY year DESC;
 
 
-List of Universally-acclaimed Movies 
-
+/*List of Universally-acclaimed Movies (Query 2)*/
 SELECT title, year, genre, director, metascore
 FROM movies
 WHERE metascore >= 81
 ORDER BY metascore DESC;
 
 
-Top 10 Production Companies and their Highest-rated Film
-
+/*Top 10 Production Companies and their Highest-rated Film (Query 3)*/
 SELECT T1.production_company,
 COUNT(T1.production_company) AS number_of_movies,
 FORMAT(AVG(T1.weighted_average_vote), 2) 
@@ -59,8 +59,7 @@ GROUP BY production_company
 ORDER BY rating DESC;
 
 
-Filmography of a Specific Actor/Actress
-
+/*Filmography of a Specific Actor/Actress (Query 4)*/
 SELECT COUNT(*) AS count_films
 FROM Movies, Title_principals, Names
 WHERE Names.imdb_name_id = Title_principals.imdb_name_id 
@@ -78,8 +77,7 @@ Title_principals.category = "actress")
  AND Names.name like "%${searchInput}%";
 
 
-The Best and Worst Films of Each Year According to Ratings
-
+/*The Best and Worst Films of Each Year According to Ratings (Query 5)*/
 SELECT DISTINCT T1.year, m1.title, m1.director, 
  COALESCE(tp1.job,'None') AS job, T1.Ratings
 FROM MOVIES m1, RATINGS r1, TITLE_PRINCIPALS tp1,
@@ -115,8 +113,7 @@ WHERE (T1.year = m1.year
 ORDER BY year ASC;
 
 
-Job and/or Character Played by a Particular Person in a Film
-
+/*Job and/or Character Played by a Particular Person in a Film (Query 6)*/
 SELECT T1.Ordering, N.name, M.title, IFNULL(P.category, 'None') 
 AS 'Job', TRIM(TRAILING ']' FROM TRIM(LEADING '[' 
 FROM(REPLACE(IFNULL(P.characters, 'None'), '"', '')))) AS 'Characters'
@@ -132,8 +129,7 @@ WHERE T1.imdb_name_id=N.imdb_name_id
  	 AND P.imdb_title_id = M.imdb_title_id;
 
 
-Best Year in Film for a Specific Person and the Best Movie in that Given Year
-
+/*Best Year in Film for a Specific Person and the Best Movie in that Given Year (Query 7)*/
 SELECT name, year, b.best_year_rating, title,  max(weighted_average_vote) as movie_rating, job, characters
 FROM names n , title_principals t, movies m, ratings r, 
 	(SELECT a.name as best_name, a.year as best_year, 

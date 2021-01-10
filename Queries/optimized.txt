@@ -20,19 +20,19 @@ CREATE INDEX idx_language ON Movies (language);
 CREATE INDEX idx_metascore ON Movies (metascore);
 
 
-/*Query 1*/
+/*List of English Movies (Query 1)*/
 SELECT title, year, genre, director, duration
 FROM Movies
 WHERE Language = "English"
 ORDER BY year DESC;
 
-/*Query 2*/
+/*List of Universally-acclaimed Movies (Query 2)*/
 SELECT title, year, genre, director, metascore
 FROM Movies
 WHERE metascore >= 81
 ORDER BY metascore DESC;
 
-/*Query 3*/
+/*Top 10 Production Companies and their Highest-rated Film (Query 3)*/
 SELECT production_company, COUNT(production_company) AS number_of_movies, FORMAT(AVG(weighted_average_vote), 2) AS average_vote_of_movies
 FROM Movies m
 JOIN Ratings r
@@ -60,7 +60,7 @@ WHERE production_company IN
 GROUP BY production_company
 ORDER BY rating DESC;
 
-/*Query 4*/
+/*Filmography of a Specific Actor/Actress (Query 4)*/
 SELECT COUNT(*) AS count_films
 FROM Movies, Title_principals, Names
 WHERE Names.imdb_name_id = Title_principals.imdb_name_id
@@ -75,7 +75,7 @@ AND Title_principals.imdb_title_id = Movies.imdb_title_id
 AND Title_principals.category IN ("actor", "actress")
 AND Names.name like "%${searchInput}%";
 
-/*Query 5*/
+/*The Best and Worst Films of Each Year According to Ratings (Query 5)*/
 SELECT DISTINCT T1.year, m1.title, m1.director, COALESCE(tp1.job,'None') AS job, T1.Ratings
 FROM (SELECT    m2.year, MAX(r2.weighted_average_vote) AS 'Ratings'
       FROM      Movies m2, Ratings r2
@@ -102,7 +102,7 @@ WHERE (T1.year = m1.year
        AND T1.year LIKE "%${searchInput}%"
 ORDER BY T1.year ASC;
 
-/*Query 6*/
+/*Job and/or Character Played by a Particular Person in a Film (Query 6)*/
 SELECT T1.Ordering, N.name, M.title, COALESCE(P.category,'None') AS 'Job', TRIM(TRAILING ']' FROM TRIM(LEADING '[' 
       FROM(REPLACE(COALESCE(P.characters,'None'), '"', '')))) AS 'Characters'
 FROM (SELECT AVG(P1.ordering) AS 'Ordering', N1.imdb_name_id
@@ -115,7 +115,7 @@ JOIN  Names N ON T1.imdb_name_id = N.imdb_name_id
 JOIN  Title_principals P ON N.imdb_name_id = P.imdb_name_id 
 JOIN  Movies M ON P.imdb_title_id = M.imdb_title_id;
 
-/*Query 7*/
+/*Best Year in Film for a Specific Person and the Best Movie in that Given Year (Query 7)*/
 SELECT name, year, b.best_year_rating, title,  max(weighted_average_vote) as movie_rating, job, characters
 FROM Names n , Title_principals t, Movies m, Ratings r, 
      (SELECT a.name as best_name, a.year as best_year, 
