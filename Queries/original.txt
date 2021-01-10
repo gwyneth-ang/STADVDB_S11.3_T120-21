@@ -1,3 +1,5 @@
+Note: Original queries patterned with Node.js. The searchInput signifies the value that will be searched for.
+
 List of English Movies
 
 SELECT title, year, genre, director, duration
@@ -65,7 +67,7 @@ WHERE Names.imdb_name_id = Title_principals.imdb_name_id
  AND Title_principals.imdb_title_id = Movies.imdb_title_id
  AND (Title_principals.category = "actor" OR 
 Title_principals.category = "actress")
- AND Names.name like "%Bruce Lee%";
+ AND Names.name like "%${searchInput}%";
 
 SELECT title, year, genre, director, duration
 FROM Movies, Title_principals, Names
@@ -73,7 +75,7 @@ WHERE Names.imdb_name_id = Title_principals.imdb_name_id
  AND Title_principals.imdb_title_id = Movies.imdb_title_id
 AND (Title_principals.category = "actor" OR 
 Title_principals.category = "actress")
- AND Names.name like "%Bruce Lee%";
+ AND Names.name like "%${searchInput}%";
 
 
 The Best and Worst Films of Each Year According to Ratings
@@ -92,7 +94,7 @@ WHERE (T1.year = m1.year
  AND r1.imdb_title_id=m1.imdb_title_id
  AND m1.imdb_title_id=tp1.imdb_title_id
  AND tp1.category ="director"
- AND T1.year LIKE "%%"
+ AND T1.year LIKE "%${searchInput}%"
 ORDER BY year ASC;
 
 SELECT DISTINCT T1.year, m1.title, m1.director, 
@@ -109,7 +111,7 @@ WHERE (T1.year = m1.year
  AND r1.imdb_title_id=m1.imdb_title_id
  AND m1.imdb_title_id=tp1.imdb_title_id
  AND tp1.category ="director"
- AND T1.year LIKE "%%"
+ AND T1.year LIKE "%${searchInput}%"
 ORDER BY year ASC;
 
 
@@ -123,7 +125,7 @@ FROM title_principals P, movies M, names N,
 	 FROM title_principals P1, movies M1, names N1
 	 WHERE N1.imdb_name_id = P1.imdb_name_id 
 	 AND P1.imdb_title_id = M1.imdb_title_id
-	 AND N1.name LIKE "%Fred Astaire%"
+	 AND N1.name LIKE "%${searchInput}%"
 	 GROUP BY N1.name) T1
 WHERE T1.imdb_name_id=N.imdb_name_id
 	 AND N.imdb_name_id = P.imdb_name_id 
@@ -143,7 +145,7 @@ ratings r
 			WHERE n.imdb_name_id = t.imdb_name_id 
 				AND t.imdb_title_id = m.imdb_title_id 
 				AND m.imdb_title_id = r.imdb_title_id
-				AND name LIKE "%Fred Astaire%"
+				AND name LIKE "%${searchInput}%"
 			GROUP BY name, year
 			ORDER BY name) a
 	GROUP BY a.name
