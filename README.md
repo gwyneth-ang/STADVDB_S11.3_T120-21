@@ -6,7 +6,7 @@
 ## To Run locally
 Prerequisite:
 1. Clone the repository
-2. Add database locally (download from this [link](https://drive.google.com/file/d/1_r70eO6Tu2CNliaE2wQu0Iebzh03Pmwf/view?usp=sharing)) in MySQL Server
+2. Add database locally (download from this [link](https://drive.google.com/file/d/1--CNRewTDe2aJKPzB2GmyevbPNaLwVbK/view?usp=sharing)) in MySQL Server
 3. Add .env file to cloned folder containing 
       ```
       NODE_ENV=development
