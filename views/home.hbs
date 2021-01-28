@@ -30,19 +30,16 @@
                         <div class="form-group col-md-6 col-11 mr-md-1">
                             <input type="text" class="form-control pl-4" id="search-box" placeholder="Search" name="search_input">
                         </div>
-                        <div id="actors-datalist">
+                        {{!-- <div id="actors-datalist">
                             {{> actors_datalist}}
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-2 col-8 ml-md-2">
                             <select id="drop-box" class="form-control">
                                 <option selected>Choose...</option>
-                                <option value='1'>List of English Movies</option>
-                                <option value='2'>List of Universally Acclaimed Films</option>
-                                <option value='3'>Top 10 Production Companies and their Highest-rated Film</option>
-                                <option value='4'>Filmography of a Specific Actor/Actress</option>
-                                <option value='5'>The Best and Worst Films of Each Year According to Ratings</option>
-                                <option value='6'>Job and/or Character Played by a Particular Person in a Film</option>
-                                <option value='7'>Best Year in Film for a Specific Person and the Best Movie in that Given Year</option>
+                                <option value='1'>Roll-up</option>
+                                <option value='2'>Drill-down</option>
+                                <option value='3'>Dice</option>
+                                <option value='4'>Slice</option>
                             </select>
                         </div>
                         <div class="form-group col-md-2 col-0"></div>
@@ -70,7 +67,7 @@
     </div>
 
     <div class="container page2">
-        <!--English Movies-->
+        {{!-- <!--English Movies-->
         <div id="english-movies">
             {{> english_films}} <!-- Partials -->
         </div>
@@ -103,7 +100,9 @@
         <!--Best Year in Film of a given person-->
         <div id="best-year">
             {{> best_year}} <!-- Partials -->
-        </div>
+        </div> --}}
+
+        
 
     </div>
     <script type="text/javascript" src="/javascripts/checkQuery.js"></script>

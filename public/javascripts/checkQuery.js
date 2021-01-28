@@ -21,20 +21,20 @@ $(document).ready(function() {
         $("#search-box").removeAttr("list");
 
         selectValue = $("#drop-box").val();
-        if (selectValue === '1' || selectValue === '2' || selectValue == '3') {
-            $("#search-box").prop("disabled", true);
-            $("#search-box").attr("placeholder", "Search Disabled");
-            $("#search-box").css("cursor", "not-allowed");
-        } else if (selectValue === '4' || selectValue === '7') {
-            $("#search-box").attr("placeholder", "Input an actor/actress");
-            //add datalist for actor names
-            showActorsDatalist();
-            $("#search-box").attr("list", "actors-name-list");
-        } else if (selectValue === '5') {
-            $("#search-box").attr("placeholder", "Input a year");
-        } else if (selectValue === '6') {
-            $("#search-box").attr("placeholder", "Input a name");
-        }
+        // if (selectValue === '1' || selectValue === '2' || selectValue == '3') {
+        //     $("#search-box").prop("disabled", true);
+        //     $("#search-box").attr("placeholder", "Search Disabled");
+        //     $("#search-box").css("cursor", "not-allowed");
+        // } else if (selectValue === '4' || selectValue === '7') {
+        //     $("#search-box").attr("placeholder", "Input an actor/actress");
+        //     //add datalist for actor names
+        //     showActorsDatalist();
+        //     $("#search-box").attr("list", "actors-name-list");
+        // } else if (selectValue === '5') {
+        //     $("#search-box").attr("placeholder", "Input a year");
+        // } else if (selectValue === '6') {
+        //     $("#search-box").attr("placeholder", "Input a name");
+        // }
     });
 
     $('#search-box').on('keyup', function(e) {
@@ -56,34 +56,7 @@ $(document).ready(function() {
             } else if (selectValue === '3') {
                 selectedThree();
             } else if (selectValue === '4') {
-                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
-                if (isEmptySearchInput) {
-                    alert("Please input an actor/actress");
-                    $(".loading").hide();
-                }
-                else {
-                    selectedFour();
-                }
-            } else if (selectValue === '5') {
-                selectedFive();
-            } else if (selectValue === '6') {
-                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
-                if (isEmptySearchInput) {
-                    alert("Please input a name");
-                    $(".loading").hide();
-                }
-                else {
-                    selectedSix();
-                }
-            } else if (selectValue === '7') {
-                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
-                if (isEmptySearchInput) {
-                    alert("Please input an actor/actress");
-                    $(".loading").hide();
-                }
-                else {
-                    selectedSeventh();
-                }
+                selectedFour();
             } else {
                 $(".loading").hide();
             }
@@ -92,9 +65,9 @@ $(document).ready(function() {
     // for actor names datalist
     $("#search-box").on('keyup change', function() {
         let selectedValue = $("#drop-box").val();
-        if (selectedValue === '4' || selectedValue === '7') {
-            showActorsDatalist();
-        }
+        // if (selectedValue === '4' || selectedValue === '7') {
+        //     showActorsDatalist();
+        // }
     });
 });
 
@@ -111,98 +84,53 @@ function hideAll() {
 
 function selectedOne() {
     scrollToLoading();
-    $.post('/firstQuery', { page: 1 }, resp => {
-        $("#english-movies").html(resp.partial);
-        $("#english-movies").show();
+    // $.post('/firstQuery', { page: 1 }, resp => {
+    //     $("#english-movies").html(resp.partial);
+    //     $("#english-movies").show();
 
-        pagination = Math.ceil(resp.totalCount / itemsPerPage);
-        pageNum = 1;
-        pageStart = 1;
-        pageEnd = pagination > 5 ? 5 : pagination;
+    //     pagination = Math.ceil(resp.totalCount / itemsPerPage);
+    //     pageNum = 1;
+    //     pageStart = 1;
+    //     pageEnd = pagination > 5 ? 5 : pagination;
 
-        removePagination();
-        if (resp.totalCount > itemsPerPage)
-            setUpPagination(pagination, pageStart, pageEnd, pageNum);
+    //     removePagination();
+    //     if (resp.totalCount > itemsPerPage)
+    //         setUpPagination(pagination, pageStart, pageEnd, pageNum);
 
-        $(".loading").hide();
-        window.location.href = '#english-movies';
-    });
+    //     $(".loading").hide();
+    //     window.location.href = '#english-movies';
+    // });
 }
 
 function selectedTwo() {
     scrollToLoading();
-    $.post('/secondQuery', resp => {
-        $("#universally-acclaimed").html(resp);
-        $("#universally-acclaimed").show();
-        $(".loading").hide();
-        window.location.href = '#universally-acclaimed';
-    });
+    // $.post('/secondQuery', resp => {
+    //     $("#universally-acclaimed").html(resp);
+    //     $("#universally-acclaimed").show();
+    //     $(".loading").hide();
+    //     window.location.href = '#universally-acclaimed';
+    // });
 }
 
 function selectedThree() {
     scrollToLoading();
-    $.post('/thirdQuery', resp => {
-        $("#production-companies").html(resp);
-        $("#production-companies").show();
-        $(".loading").hide();
-        window.location.href = '#production-companies-and-films';
-    });
+    // $.post('/thirdQuery', resp => {
+    //     $("#production-companies").html(resp);
+    //     $("#production-companies").show();
+    //     $(".loading").hide();
+    //     window.location.href = '#production-companies-and-films';
+    // });
 }
 
 function selectedFour() {
     scrollToLoading();
-    $.post('/fourthQuery', { searchInput: searchInput }, resp => {
-        $("#actor-films").html(resp);
-        $("#actor-films").show();
-        $(".loading").hide();
-        $("#none-found").show();
-        window.location.href = '#actor-films';
-    });
-}
-
-function selectedFive() {
-    scrollToLoading();
-    $.post('/fifthQuery', { searchInput: searchInput }, resp => {
-        $("#years-rating").html(resp);
-        $("#years-rating").show();
-        $("#none-found").show();
-        $(".loading").hide();
-        window.location.href = '#years-rating';
-    });
-}
-
-function selectedSix() {
-    scrollToLoading();
-    $.post('/sixthQuery', { searchInput: searchInput, page: 1 }, resp => {
-        $("#character-job-actor").html(resp.partial);
-        $("#character-job-actor").show();
-
-        pagination = Math.ceil(resp.totalCount / itemsPerPage);
-        pageNum = 1;
-        pageStart = 1;
-        pageEnd = pagination > 5 ? 5 : pagination;
-
-        removePagination();
-        if (resp.totalCount > itemsPerPage)
-            setUpPagination(pagination, pageStart, pageEnd, pageNum);
-
-        //in case none found
-        $("#none-found").show();
-        $(".loading").hide();
-        window.location.href = '#character-job-actor';
-    });
-}
-
-function selectedSeventh() {
-    scrollToLoading();
-    $.post('/seventhquery', { searchInput: searchInput }, resp => {
-        $("#best-year").html(resp);
-        $("#best-year").show();
-        //in case none found
-        $("#none-found").show();
-        $(".loading").hide();
-        window.location.href = '#best-year';
-    });
+    // $.post('/fourthQuery', { searchInput: searchInput }, resp => {
+    //     $("#actor-films").html(resp);
+    //     $("#actor-films").show();
+    //     $(".loading").hide();
+    //     $("#none-found").show();
+    //     window.location.href = '#actor-films';
+    // });
 }
 
 function showActorsDatalist() {
