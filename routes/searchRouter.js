@@ -3,6 +3,7 @@ const router = express();
 const ctrl = require('../controllers/searchController');
 
 router.get('/', ctrl.viewHomePage);
+router.post('/sliceQuery', ctrl.postSliceQuery);
 
 // router.post('/actorNamesQuery', ctrl.postActorNamesQuery);
 // router.post('/firstQuery', ctrl.postSearchFirstQuery);

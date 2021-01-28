@@ -2,6 +2,43 @@ const searchController = {
 
     viewHomePage: (req, res) => res.render('home'),
 
+    postSliceQuery: (req, res) => {
+        //const { page } = req.body;
+        const { searchInput } = req.body;
+        //const name = req.body.searchInput;
+
+        let seventhquery =
+            `SELECT T.title, G.genre, D.year
+            FROM F_MOVIE M, D_DATE D, D_TITLE T, D_COUNTRY C, D_GENRE G
+            WHERE M.genre_id = G.genre_id
+            AND M.date_id = D.date_id
+            AND M.imdb_title_id = T.imdb_title_id
+            AND M.country_id = C.country_id
+            AND C.country = '%${searchInput}%'
+            GROUP BY G.genre, D.year
+            ORDER BY G.genre, D.year;`;
+
+        db.query(seventhquery, (err, result) => {
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial) {
+                    res.send(partial);
+                });
+            }
+
+            if (result.length === 0) {
+                let none = "None found: Please search again";
+                return res.render('_partials/none_found', { res: none }, function(err, partial) {
+                    res.send(partial);
+                });
+            }
+
+            return res.render('_partials/slice_results', { slice_results: result }, function(err, partial) {
+                res.send(partial);
+            });
+        });
+    }
+
     // postSearchFirstQuery: (req, res) => {
     //     const { page } = req.body;
 
@@ -118,7 +155,7 @@ const searchController = {
     //                     res.send(partial);
     //                 });
     //             }
-                
+
     //             return res.render('_partials/top10_production_companies_films', { topCompanies: result1, topCompanyFilms: result2 }, function(err, partial) {
     //                 res.send(partial);
     //             });
@@ -269,7 +306,7 @@ const searchController = {
 
     //         // Display 100 items per page
     //         const perPage = 100, totalCount = count[0].totalCount;
-            
+
     //         if (totalCount === 0) {
     //             result = "None found: Please search again";
     //             return res.render('_partials/none_found', { res: result }, function(err, partial) {
@@ -351,7 +388,7 @@ const searchController = {
     //                 res.send(partial);
     //             });
     //         }
-            
+
     //         if (result.length === 0){
     //             let none = "None found: Please search again";
     //             return res.render('_partials/none_found', { res: none }, function(err, partial){
