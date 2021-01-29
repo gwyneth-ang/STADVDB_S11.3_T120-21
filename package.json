@@ -1,30 +1,31 @@
 {
-  "name": "stadvdb-s11-3",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gwyneth-ang/STADVDB-S11-3.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gwyneth-ang/STADVDB-S11-3/issues"
-  },
-  "homepage": "https://github.com/gwyneth-ang/STADVDB-S11-3#readme",
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "handlebars": "^4.7.6",
-    "hbs": "^4.1.1",
-    "morgan": "^1.10.0",
-    "mysql": "^2.18.1",
-    "path": "^0.12.7"
-  }
+    "name": "stadvdb-s11-3",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gwyneth-ang/STADVDB-S11-3.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/gwyneth-ang/STADVDB-S11-3/issues"
+    },
+    "homepage": "https://github.com/gwyneth-ang/STADVDB-S11-3#readme",
+    "dependencies": {
+        "bignumber.js": "^9.0.1",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "handlebars": "^4.7.6",
+        "hbs": "^4.1.1",
+        "morgan": "^1.10.0",
+        "mysql": "^2.18.1",
+        "path": "^0.12.7"
+    }
 }
