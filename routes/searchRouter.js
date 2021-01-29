@@ -3,6 +3,8 @@ const router = express();
 const ctrl = require('../controllers/searchController');
 
 router.get('/', ctrl.viewHomePage);
+router.post('/diceQuery', ctrl.postDiceQuery);
+router.post('/sliceQuery', ctrl.postSliceQuery);
 
 // router.post('/actorNamesQuery', ctrl.postActorNamesQuery);
 // router.post('/firstQuery', ctrl.postSearchFirstQuery);
@@ -12,7 +14,5 @@ router.get('/', ctrl.viewHomePage);
 // router.post('/fifthQuery', ctrl.postSearchFifthQuery);
 // router.post('/sixthQuery', ctrl.postSearchSixthQuery);
 // router.post('/seventhQuery', ctrl.postSearchSeventhQuery);
-
-router.post('/diceQuery', ctrl.postDiceQuery);
 
 module.exports = router;

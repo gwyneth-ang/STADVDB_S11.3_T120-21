@@ -81,15 +81,8 @@ $(document).ready(function() {
 
 function hideAll() {
     removePagination();
-    $("#english-movies").hide();
-    $("#years-rating").hide();
-    $("#production-companies").hide();
-    $("#actor-films").hide();
-    $("#universally-acclaimed").hide();
-    $("#character-job-actor").hide();
-    $("#best-year").hide();
-
     $("dice-results").hide();
+    $("#slice-results").hide();
 }
 
 function selectedOne() {
@@ -137,13 +130,13 @@ function selectedThree() {
 
 function selectedFour() {
     scrollToLoading();
-    // $.post('/fourthQuery', { searchInput: searchInput }, resp => {
-    //     $("#actor-films").html(resp);
-    //     $("#actor-films").show();
-    //     $(".loading").hide();
-    //     $("#none-found").show();
-    //     window.location.href = '#actor-films';
-    // });
+    $.post('/sliceQuery', { searchInput: searchInput }, resp => {
+        $("#slice-results").html(resp);
+        $("#slice-results").show();
+        $(".loading").hide();
+        $("#none-found").show();
+        window.location.href = '#slice-results';
+    });
 }
 
 function showActorsDatalist() {
@@ -242,7 +235,7 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
                     $("#character-job-actor").show();
 
                     updatePagination(pageStart, pageNum);
-                    
+
                     $("#none-found").show();
                     $(".loading").hide();
                     window.location.href = '#character-job-actor';
