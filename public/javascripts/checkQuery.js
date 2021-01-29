@@ -8,6 +8,7 @@ const itemsPerPage = 100;
 
 $(document).ready(function() {
     $(".loading").hide();
+    $("#search-box-2").hide();
     hideAll();
 
     $('#drop-box').on('change', function(e) {
@@ -21,6 +22,13 @@ $(document).ready(function() {
         $("#search-box").removeAttr("list");
 
         selectValue = $("#drop-box").val();
+
+        if (selectValue === '3') {
+            $("#search-box-2").show();
+            $("#search-box").attr("placeholder", "Input a country");
+            $("#search-box-2").attr("placeholder", "Input a genre");
+        } 
+
         // if (selectValue === '1' || selectValue === '2' || selectValue == '3') {
         //     $("#search-box").prop("disabled", true);
         //     $("#search-box").attr("placeholder", "Search Disabled");
@@ -80,6 +88,8 @@ function hideAll() {
     $("#universally-acclaimed").hide();
     $("#character-job-actor").hide();
     $("#best-year").hide();
+
+    $("dice-results").hide();
 }
 
 function selectedOne() {
@@ -114,12 +124,15 @@ function selectedTwo() {
 
 function selectedThree() {
     scrollToLoading();
-    // $.post('/thirdQuery', resp => {
-    //     $("#production-companies").html(resp);
-    //     $("#production-companies").show();
-    //     $(".loading").hide();
-    //     window.location.href = '#production-companies-and-films';
-    // });
+    let secondSearchInput = $("#search-box-2").val().trim();
+
+    $.post('/diceQuery', {countryInput: searchInput, genreInput: secondSearchInput}, resp => {
+        $("#dice-results").html(resp);
+        $("#dice-results").show();
+        $(".loading").hide();
+        $("#none-found").show();
+        window.location.href = '#dice-results';
+    });
 }
 
 function selectedFour() {

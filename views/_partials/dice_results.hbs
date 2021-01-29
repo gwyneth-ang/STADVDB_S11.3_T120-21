@@ -1,0 +1,20 @@
+{{#if diceResults}}
+<div class="container lists">
+    <div class="container input-list">
+        {{#each diceResults}}
+        <div class="row">
+            <div class="col-lg-9 text-left">
+                <h2>{{title}}</h2>
+            </div>
+            <div class="col-lg-3 text-md-right text-left mt-lg-0 my-3">
+                <h2>{{year}}</h2>
+            </div>
+        </div>
+        <div class="row text-left">
+            <h3>Ratings: {{weighted_average_vote}}</h3>
+        </div>
+        <hr>
+        {{/each}}
+    </div>
+</div>
+{{/if}}

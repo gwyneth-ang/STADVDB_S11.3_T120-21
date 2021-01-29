@@ -2,6 +2,50 @@ const searchController = {
 
     viewHomePage: (req, res) => res.render('home'),
 
+
+
+
+
+    postDiceQuery: (req, res) => {
+        const { countryInput, genreInput } = req.body;
+
+        console.log(countryInput);
+        console.log(genreInput);
+
+        let diceQuery = `
+            SELECT DISTINCT M.weighted_average_vote, D.year, T.title
+            FROM F_MOVIE M, D_DATE D, D_TITLE T, D_COUNTRY C, D_GENRE G
+            WHERE M.imdb_title_id = T.imdb_title_id
+            AND M.date_id = D.date_id
+            AND M.country_id = C.country_id
+            AND M.genre_id = G.genre_id
+            AND C.country LIKE '%${countryInput}%'
+            AND G.genre LIKE '%${genreInput}%'
+            ORDER BY M.weighted_average_vote DESC;
+        `;
+        
+        db.query(diceQuery, (err, result) => {
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send(partial);
+                });
+            }
+            
+            if (result.length === 0){
+                let none = "None found: Please search again";
+                return res.render('_partials/none_found', { res: none }, function(err, partial){
+                    res.send(partial);
+                });
+            }
+
+            console.log(result);
+
+            return res.render('_partials/dice_result', { diceResults: result }, function(err, partial){
+                res.send(partial);
+            });
+        });
+    },
     // postSearchFirstQuery: (req, res) => {
     //     const { page } = req.body;
 

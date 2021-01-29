@@ -13,6 +13,6 @@ router.get('/', ctrl.viewHomePage);
 // router.post('/sixthQuery', ctrl.postSearchSixthQuery);
 // router.post('/seventhQuery', ctrl.postSearchSeventhQuery);
 
-
+router.post('/diceQuery', ctrl.postDiceQuery);
 
 module.exports = router;
