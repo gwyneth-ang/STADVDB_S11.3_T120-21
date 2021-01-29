@@ -77,17 +77,25 @@ const searchController = {
         });
     },
 
-    postActorNamesQuery: (req, res) => {
-        const { searchInput } = req.body;
-
+    postCountriesQuery: (req, res) => {
         let query =
-            `SELECT name
-             FROM Names
-             WHERE name like "%${searchInput}%"
-             LIMIT 5;`;
+            `SELECT country
+             FROM D_COUNTRY;`;
 
         db.query(query, (err, result) => {
-            return res.render('_partials/actors_datalist', { actorsList: result }, function(err, partial) {
+            return res.render('_partials/countries_datalist', { countriesList: result }, function(err, partial) {
+                res.send(partial);
+            });
+        });
+    },
+
+    postGenreQuery: (req, res) => {
+        let query =
+            `SELECT genre
+             FROM D_GENRE;`;
+
+        db.query(query, (err, result) => {
+            return res.render('_partials/genre_datalist', { genreList: result }, function(err, partial) {
                 res.send(partial);
             });
         });

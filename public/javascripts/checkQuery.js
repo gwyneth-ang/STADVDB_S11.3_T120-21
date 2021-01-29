@@ -1,4 +1,4 @@
-let searchInput;
+let searchInput, secondSearchInput;
 let selectValue;
 let pagination;
 let pageNum;
@@ -13,26 +13,40 @@ $(document).ready(function() {
 
     $('#drop-box').on('change', function(e) {
         $("#search-box").prop("disabled", false);
+
+        // hide second search
         $("#search-box-2").hide();
         $("#search-box").removeClass("col-5");
 
-        //clear text box
+        // clear text box
         $("#search-box").val("")
         $("#search-box").attr("placeholder", "Search");
         $("#search-box").css("cursor", "default");
 
-        //for actor names datalist
+        // for country and genre datalist
         $("#search-box").removeAttr("list");
+        $("#search-box-2").removeAttr("list");
 
         selectValue = $("#drop-box").val();
 
         if (selectValue === '3') {
+            // show second search box
             $("#search-box-2").show();
             $("#search-box").addClass("col-5");
+
             $("#search-box").attr("placeholder", "Input a country");
             $("#search-box-2").attr("placeholder", "Input a genre");
+
+            showContriesDatalist();
+            showGenreDatalist();
+
+            $("#search-box").attr("list", "country-list");
+            $("#search-box-2").attr("list", "genre-list");
         } else if (selectValue === '4') {
             $("#search-box").attr("placeholder", "Input a country");
+
+            showContriesDatalist();
+            $("#search-box").attr("list", "country-list");
         }
     });
 
@@ -45,29 +59,51 @@ $(document).ready(function() {
         $('#searchBtn').on('click', function(e) {
             selectValue = $("#drop-box").val();
             searchInput = $("#search-box").val();
+            secondSearchInput = $("#search-box-2").val();
 
             hideAll();
             $(".loading").show();
+            $("#none-found").hide();
+            $("#error-found").hide();
+
             if (selectValue === '1') {
                 selectedOne();
             } else if (selectValue === '2') {
                 selectedTwo();
             } else if (selectValue === '3') {
-                selectedThree();
+                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
+                let isEmptySecSearchInput = (secondSearchInput.trim() === "") ? true: false;
+
+                if (isEmptySearchInput) {
+                    alert("Please input a country");
+                    $(".loading").hide();
+                } else if (isEmptySecSearchInput) {
+                    alert("Please input a genre");
+                    $(".loading").hide();
+                } else {
+                    selectedThree();
+                }
             } else if (selectValue === '4') {
-                selectedFour();
+                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
+                if (isEmptySearchInput) {
+                    alert("Please input a country");
+                    $(".loading").hide();
+                }
+                else {
+                    selectedFour();
+                }
             } else {
                 $(".loading").hide();
             }
         });
 
-    // for actor names datalist
-    $("#search-box").on('keyup change', function() {
-        let selectedValue = $("#drop-box").val();
-        // if (selectedValue === '4' || selectedValue === '7') {
-        //     showActorsDatalist();
-        // }
-    });
+    // // for actor names datalist
+    // $("#search-box").on('keyup change', function() {
+    //     let selectedValue = $("#drop-box").val();
+    //     // if (selectedValue === '4' || selectedValue === '7') {
+    //     //     showActorsDatalist();
+    //     // }
+    // });
 });
 
 function hideAll() {
@@ -77,68 +113,69 @@ function hideAll() {
 }
 
 function selectedOne() {
-    scrollToLoading();
+    // scrollTo(".loading");
     // $.post('/firstQuery', { page: 1 }, resp => {
     //     $("#english-movies").html(resp.partial);
     //     $("#english-movies").show();
-
-    //     pagination = Math.ceil(resp.totalCount / itemsPerPage);
-    //     pageNum = 1;
-    //     pageStart = 1;
-    //     pageEnd = pagination > 5 ? 5 : pagination;
-
-    //     removePagination();
-    //     if (resp.totalCount > itemsPerPage)
-    //         setUpPagination(pagination, pageStart, pageEnd, pageNum);
-
     //     $(".loading").hide();
-    //     window.location.href = '#english-movies';
+    //     $("#none-found").show();
+    //     $("#error-found").show();
+    //     scrollTo("#english-movies");
     // });
 }
 
 function selectedTwo() {
-    scrollToLoading();
+    // scrollTo(".loading");
     // $.post('/secondQuery', resp => {
     //     $("#universally-acclaimed").html(resp);
     //     $("#universally-acclaimed").show();
     //     $(".loading").hide();
-    //     window.location.href = '#universally-acclaimed';
+    //     $("#none-found").show();
+    //     $("#error-found").show();
+    //     scrollTo("#universally-acclaimed");
     // });
 }
 
 function selectedThree() {
-    scrollToLoading();
-    let secondSearchInput = $("#search-box-2").val().trim();
-
+    scrollTo(".loading");
     $.post('/diceQuery', { countryInput: searchInput, genreInput: secondSearchInput }, resp => {
         $("#dice-results").html(resp);
         $("#dice-results").show();
         $(".loading").hide();
         $("#none-found").show();
-        window.location.href = '#dice-results';
+        $("#error-found").show();
+        scrollTo("#dice-results");
     });
 }
 
 function selectedFour() {
-    scrollToLoading();
+    scrollTo(".loading");
     $.post('/sliceQuery', { searchInput: searchInput }, resp => {
         $("#slice-results").html(resp);
         $("#slice-results").show();
         $(".loading").hide();
         $("#none-found").show();
-        window.location.href = '#slice-results';
+        $("#error-found").show();
+        scrollTo("#slice-results");
     });
 }
 
 function showContriesDatalist() {
-    $.post('/actorNamesQuery', {} , resp => {
-        $("#actors-datalist").html(resp);
-        $("#actors-datalist").show();
+    $.post('/countriesQuery', {} , resp => {
+        $("#country-datalist").html(resp);
+        $("#country-datalist").show();
     });
 }
 
-function scrollToLoading() {
-    var offset = $(".loading").offset();
+function showGenreDatalist() {
+    $.post('/genreQuery', {} , resp => {
+        $("#genre-datalist").html(resp);
+        $("#genre-datalist").show();
+    });
+}
+
+function scrollTo(resultID) {
+    var offset = $(`${resultID}`).offset();
     offset.left -= 20;
     offset.top -= 20;
     $('html, body').animate({

@@ -14,6 +14,7 @@
     <!-- JQuery --->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <title>Pelicula</title>
+    <link rel="icon" href="/images/video-player.png" type="image/x-icon">
 </head>
 
 <body>
@@ -30,12 +31,15 @@
                         <div class="form-group col-md-6 col-11 mr-md-1">
                             <div class="row justify-content-center">
                                 <input type="text" class="form-control pl-4" id="search-box" placeholder="Search" name="search_input">
+                                <div id="country-datalist">
+                                    {{> countries_datalist}}
+                                </div>
                                 <input type="text" class="form-control pl-4 ml-3 col-5" id="search-box-2" placeholder="Search" name="search_input_two">
+                                    <div id="genre-datalist">
+                                        {{> genre_datalist}}
+                                    </div>
                             </div>
                         </div>
-                        {{!-- <div id="actors-datalist">
-                            {{> actors_datalist}}
-                        </div> --}}
                         <div class="form-group col-md-2 col-8 ml-md-2">
                             <select id="drop-box" class="form-control">
                                 <option selected>Choose...</option>
@@ -64,9 +68,6 @@
     </div>
     <div class="loading">
         Loading...
-    </div>
-    <div class="my-4" id="none-found">
-    {{> none_found }}
     </div>
 
     <div class="container page2">
