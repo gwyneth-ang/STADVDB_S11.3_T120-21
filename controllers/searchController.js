@@ -5,9 +5,6 @@ const searchController = {
     postDiceQuery: (req, res) => {
         const { countryInput, genreInput } = req.body;
 
-        console.log(countryInput);
-        console.log(genreInput);
-
         let diceQuery = `
             SELECT DISTINCT M.weighted_average_vote, D.year, T.title
             FROM F_MOVIE M, D_DATE D, D_TITLE T, D_COUNTRY C, D_GENRE G
@@ -35,7 +32,7 @@ const searchController = {
                 });
             }
 
-            return res.render('_partials/dice_result', { diceResults: result }, function(err, partial){
+            return res.render('_partials/dice_results', { diceResults: result }, function(err, partial){
                 res.send(partial);
             });
 
@@ -55,7 +52,7 @@ const searchController = {
             AND M.date_id = D.date_id
             AND M.imdb_title_id = T.imdb_title_id
             AND M.country_id = C.country_id
-            AND C.country = '%${searchInput}%'
+            AND C.country = '${searchInput}'
             GROUP BY G.genre, D.year
             ORDER BY G.genre, D.year;`;
 
@@ -74,9 +71,23 @@ const searchController = {
                 });
             }
 
-            console.log(result);
-
             return res.render('_partials/slice_results', { slice_results: result }, function(err, partial) {
+                res.send(partial);
+            });
+        });
+    },
+
+    postActorNamesQuery: (req, res) => {
+        const { searchInput } = req.body;
+
+        let query =
+            `SELECT name
+             FROM Names
+             WHERE name like "%${searchInput}%"
+             LIMIT 5;`;
+
+        db.query(query, (err, result) => {
+            return res.render('_partials/actors_datalist', { actorsList: result }, function(err, partial) {
                 res.send(partial);
             });
         });

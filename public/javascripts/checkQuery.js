@@ -13,6 +13,9 @@ $(document).ready(function() {
 
     $('#drop-box').on('change', function(e) {
         $("#search-box").prop("disabled", false);
+        $("#search-box-2").hide();
+        $("#search-box").removeClass("col-5");
+
         //clear text box
         $("#search-box").val("")
         $("#search-box").attr("placeholder", "Search");
@@ -25,24 +28,12 @@ $(document).ready(function() {
 
         if (selectValue === '3') {
             $("#search-box-2").show();
+            $("#search-box").addClass("col-5");
             $("#search-box").attr("placeholder", "Input a country");
             $("#search-box-2").attr("placeholder", "Input a genre");
-        } 
-
-        // if (selectValue === '1' || selectValue === '2' || selectValue == '3') {
-        //     $("#search-box").prop("disabled", true);
-        //     $("#search-box").attr("placeholder", "Search Disabled");
-        //     $("#search-box").css("cursor", "not-allowed");
-        // } else if (selectValue === '4' || selectValue === '7') {
-        //     $("#search-box").attr("placeholder", "Input an actor/actress");
-        //     //add datalist for actor names
-        //     showActorsDatalist();
-        //     $("#search-box").attr("list", "actors-name-list");
-        // } else if (selectValue === '5') {
-        //     $("#search-box").attr("placeholder", "Input a year");
-        // } else if (selectValue === '6') {
-        //     $("#search-box").attr("placeholder", "Input a name");
-        // }
+        } else if (selectValue === '4') {
+            $("#search-box").attr("placeholder", "Input a country");
+        }
     });
 
     $('#search-box').on('keyup', function(e) {
@@ -119,7 +110,7 @@ function selectedThree() {
     scrollToLoading();
     let secondSearchInput = $("#search-box-2").val().trim();
 
-    $.post('/diceQuery', {countryInput: searchInput, genreInput: secondSearchInput}, resp => {
+    $.post('/diceQuery', { countryInput: searchInput, genreInput: secondSearchInput }, resp => {
         $("#dice-results").html(resp);
         $("#dice-results").show();
         $(".loading").hide();
@@ -139,9 +130,8 @@ function selectedFour() {
     });
 }
 
-function showActorsDatalist() {
-    let searchInput = $("#search-box").val();
-    $.post('/actorNamesQuery', { searchInput: searchInput }, resp => {
+function showContriesDatalist() {
+    $.post('/actorNamesQuery', {} , resp => {
         $("#actors-datalist").html(resp);
         $("#actors-datalist").show();
     });
