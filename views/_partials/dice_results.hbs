@@ -1,6 +1,9 @@
 {{#if diceResults}}
 <div class="container lists">
     <div class="container input-list">
+        <div class="centered">
+            <h3>Movies, made in <u>{{country}}</u>, with year of release and its ratings for genre: <u>{{genre}}</u></h3>
+        </div>
         {{#each diceResults}}
         <div class="row">
             <div class="col-lg-9 text-left">

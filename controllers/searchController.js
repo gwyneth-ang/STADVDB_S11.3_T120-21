@@ -32,13 +32,12 @@ const searchController = {
                 });
             }
 
-            return res.render('_partials/dice_results', { diceResults: result }, function(err, partial){
+            return res.render('_partials/dice_results', { diceResults: result, country: countryInput, genre: genreInput }, function(err, partial){
                 res.send(partial);
             });
 
          });
     },
-
 
     postSliceQuery: (req, res) => {
         //const { page } = req.body;
@@ -71,7 +70,7 @@ const searchController = {
                 });
             }
 
-            return res.render('_partials/slice_results', { slice_results: result }, function(err, partial) {
+            return res.render('_partials/slice_results', { slice_results: result, country: searchInput }, function(err, partial) {
                 res.send(partial);
             });
         });
