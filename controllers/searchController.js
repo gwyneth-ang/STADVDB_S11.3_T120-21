@@ -91,6 +91,7 @@ const searchController = {
 
         db.query(countQuery, (err, count) => {
             if (err) {
+                console.log(err);
                 let error = "Something went wrong! Please try again.";
                 return res.render('_partials/error', { error }, function(err, partial){
                     res.send({
@@ -117,6 +118,7 @@ const searchController = {
                 OFFSET    ${(page - 1) * perPage};`;
 
             db.query(drillDownQuery, (err, result) => {
+                console.log(err);
                 if (err) {
                     let error = "Something went wrong! Please try again.";
                     return res.render('_partials/error', { error }, function(err, partial) {
