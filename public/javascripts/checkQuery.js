@@ -123,9 +123,19 @@ function hideAll() {
 
 function selectedOne() {
     scrollTo(".loading");
-    $.post('/rollUpQuery', resp => {
-        $("#roll-up-results").html(resp);
+    $.post('/rollUpQuery', { searchInput: searchInput, page: 1 }, resp => {
+        $("#roll-up-results").html(resp.partial);
         $("#roll-up-results").show();
+
+        pagination = Math.ceil(resp.totalCount / itemsPerPage);
+        pageNum = 1;
+        pageStart = 1;
+        pageEnd = pagination > 5 ? 5 : pagination;
+
+        removePagination();
+        if (resp.totalCount > itemsPerPage)
+            setUpPagination(pagination, pageStart, pageEnd, pageNum);
+
         $(".loading").hide();
         $("#none-found").show();
         $("#error-found").show();
@@ -245,11 +255,10 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
 
         if (pageNum + offset >= 1 && pageNum + offset <= pagination && offset != 0) {
             $(".loading").show();
-            $("#character-job-actor").hide();
-            $("#english-movies").hide();
+            $("#roll-up-results").hide();
 
-            if (selectValue === '6') {
-                $.post('/sixthQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
+            if (selectValue === '1') {
+                $.post('/rollUpQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
                     if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
 
                         if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2 ||
@@ -267,41 +276,15 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
                     }
                     pageNum += offset;
 
-                    $("#character-job-actor").html(resp.partial);
-                    $("#character-job-actor").show();
+                    $("#roll-up-results").html(resp.partial);
+                    $("#roll-up-results").show();
 
                     updatePagination(pageStart, pageNum);
 
                     $("#none-found").show();
+                    $("#error-found").show();
                     $(".loading").hide();
-                    window.location.href = '#character-job-actor';
-                });
-            } else if (selectValue === '1') {
-                $.post('/firstQuery', { page: pageNum + offset }, resp => {
-                    if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
-
-                        if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2 ||
-                            offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
-                            pageStart += offset;
-                            pageEnd += offset;
-                        } else if (offset > 0 && offset > maxPageShiftR) {
-                            pageStart += maxPageShiftR;
-                            pageEnd += maxPageShiftR;
-                        } else if (offset < 0 && -1 * offset > maxPageShiftL) {
-                            pageStart -= maxPageShiftL;
-                            pageEnd -= maxPageShiftL;
-                        }
-
-                    }
-                    pageNum += offset;
-
-                    $("#english-movies").html(resp.partial);
-                    $("#english-movies").show();
-
-                    updatePagination(pageStart, pageNum);
-
-                    $(".loading").hide();
-                    window.location.href = '#english-movies';
+                    scrollTo("#character-job-actor");
                 });
             }
         }

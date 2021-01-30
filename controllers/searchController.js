@@ -3,13 +3,12 @@ const searchController = {
     viewHomePage: (req, res) => res.render('home'),
 
     postRollUpQuery: (req, res) => {
-        //const { page } = req.body;
-        const { searchInput } = req.body;
-        //const name = req.body.searchInput;
+        // page is intially 1 (at line 126 of checkQuery.js and with offset at line 261 of checkQuery.js)
+        const { searchInput, page } = req.body;     
 
-        let rollupquery =
-            `SELECT D.year, C.country, G.genre,
-            AVG(M.weighted_average_vote) as AverageScore
+        // count query used to count the total number of rows
+        let countQuery =
+            `SELECT COUNT(*) AS totalCount
             FROM F_MOVIE as M, D_GENRE as G, D_DATE as D, D_COUNTRY as C
             WHERE D.year >= '${searchInput}'
             AND M.genre_id = G.genre_id 
@@ -17,23 +16,55 @@ const searchController = {
             AND M.country_id = C.country_id
             GROUP BY D.year, C.country, G.genre with ROLLUP;`;
 
-        db.query(rollupquery, (err, result) => {
+        db.query(countQuery, (err, count) => {
             if (err) {
                 let error = "Something went wrong! Please try again.";
-                return res.render('_partials/error', { error }, function(err, partial) {
-                    res.send(partial);
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send({
+                        partial
+                    });
                 });
             }
 
-            if (result.length === 0) {
-                let none = "None found: Please search again";
-                return res.render('_partials/none_found', { res: none }, function(err, partial) {
-                    res.send(partial);
-                });
-            }
+            // Display 100 items per page
+            const perPage = 100, totalCount = count[0].totalCount;
 
-            return res.render('_partials/roll_up_results', { rollResult: result }, function(err, partial) {
-                res.send(partial);
+            console.log(totalCount);
+
+            // modify the query to add limit (how many tuples) and offset (how many will be skipped)
+            let rollupquery =
+            `SELECT D.year, C.country, G.genre,
+            AVG(M.weighted_average_vote) as AverageScore
+            FROM F_MOVIE as M, D_GENRE as G, D_DATE as D, D_COUNTRY as C
+            WHERE D.year >= '${searchInput}'
+            AND M.genre_id = G.genre_id 
+            AND M.date_id = D.date_id 
+            AND M.country_id = C.country_id
+            GROUP BY D.year, C.country, G.genre with ROLLUP
+            LIMIT    ${perPage}
+            OFFSET    ${(page - 1) * perPage};`;
+
+            db.query(rollupquery, (err, result) => {
+                if (err) {
+                    let error = "Something went wrong! Please try again.";
+                    return res.render('_partials/error', { error }, function(err, partial) {
+                        res.send(partial);
+                    });
+                }
+
+                if (result.length === 0) {
+                    let none = "None found: Please search again";
+                    return res.render('_partials/none_found', { res: none }, function(err, partial) {
+                        res.send(partial);
+                    });
+                }
+
+                return res.render('_partials/roll_up_results', { rollResult: result }, function(err, partial) {
+                    res.send({
+                        partial,
+                        totalCount
+                    });
+                });
             });
         });
     },
