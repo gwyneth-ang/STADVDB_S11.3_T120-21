@@ -9,12 +9,14 @@ const searchController = {
         // count query used to count the total number of rows
         let countQuery =
             `SELECT COUNT(*) AS totalCount
+            FROM(SELECT D.year, C.country, G.genre,
+            AVG(M.weighted_average_vote) as AverageScore
             FROM F_MOVIE as M, D_GENRE as G, D_DATE as D, D_COUNTRY as C
-            WHERE D.year >= '${searchInput}'
+            WHERE D.year >= '${searchInput}' 
             AND M.genre_id = G.genre_id 
-            AND M.date_id = D.date_id 
+            AND M.date_id = D.date_id
             AND M.country_id = C.country_id
-            GROUP BY D.year, C.country, G.genre with ROLLUP;`;
+            GROUP BY D.year, C.country, G.genre with ROLLUP) a;`;
 
         db.query(countQuery, (err, count) => {
             if (err) {
