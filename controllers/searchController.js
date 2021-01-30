@@ -57,11 +57,81 @@ const searchController = {
                 if (result.length === 0) {
                     let none = "None found: Please search again";
                     return res.render('_partials/none_found', { res: none }, function(err, partial) {
-                        res.send(partial);
+                        res.send({partial: partial});
                     });
                 }
 
                 return res.render('_partials/roll_up_results', { rollResult: result }, function(err, partial) {
+                    res.send({
+                        partial,
+                        totalCount
+                    });
+                });
+            });
+        });
+    },
+
+    postDrillDownQuery: (req, res) => {
+        // page is intially 1 (at line 126 of checkQuery.js and with offset at line 261 of checkQuery.js)
+        const { searchInput, page } = req.body;
+
+        // count query used to count the total number of rows
+        let countQuery =
+            `SELECT COUNT(*) AS totalCount FROM 
+            (
+                SELECT YEAR(D.date_published) year, QUARTER(D.date_published) quarter, G.genre, COUNT(G.genre) number_of_movies
+                FROM F_MOVIE M, D_DATE D, D_GENRE G
+                WHERE M.genre_id = G.genre_id
+                AND M.date_id = D.date_id
+                AND YEAR(D.date_published) = ${searchInput}
+                AND QUARTER(D.date_published)IS NOT NULL 
+                GROUP BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
+                ORDER BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
+            ) T1`;
+
+        db.query(countQuery, (err, count) => {
+            if (err) {
+                let error = "Something went wrong! Please try again.";
+                return res.render('_partials/error', { error }, function(err, partial){
+                    res.send({
+                        partial
+                    });
+                });
+            }
+
+            // Display 100 items per page
+            const perPage = 100, totalCount = count[0].totalCount;
+
+            // modify the query to add limit (how many tuples) and offset (how many will be skipped)
+            let drillDownQuery =
+                `
+                SELECT YEAR(D.date_published) year, QUARTER(D.date_published) quarter, G.genre, COUNT(G.genre) number_of_movies
+                FROM F_MOVIE M, D_DATE D, D_GENRE G
+                WHERE M.genre_id = G.genre_id
+                AND M.date_id = D.date_id
+                AND YEAR(D.date_published) = ${ searchInput }
+                AND QUARTER(D.date_published) IS NOT NULL 
+                GROUP BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
+                ORDER BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
+                LIMIT    ${perPage}
+                OFFSET    ${(page - 1) * perPage};`;
+
+            db.query(drillDownQuery, (err, result) => {
+                if (err) {
+                    let error = "Something went wrong! Please try again.";
+                    return res.render('_partials/error', { error }, function(err, partial) {
+                        res.send(partial);
+                    });
+                }
+
+                if (result.length === 0) {
+                    let none = "None found: Please search again";
+                    return res.render('_partials/none_found', { res: none }, function(err, partial) {
+                        res.send({partial: partial});
+                    });
+                }
+
+                return res.render('_partials/drill_down_results', { drillDownResult: result }, function(err, partial) {
                     res.send({
                         partial,
                         totalCount

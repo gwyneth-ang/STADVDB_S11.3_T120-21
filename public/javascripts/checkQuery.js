@@ -30,6 +30,9 @@ $(document).ready(function() {
         selectValue = $("#drop-box").val();
         if (selectValue === '1'){
             $("#search-box").attr("placeholder", "Input year");
+        }
+        else if (selectValue === '2') {
+            $("#search-box").attr("placeholder", "Input year");
         } else if (selectValue === '3') {
             // show second search box
             $("#search-box-2").show();
@@ -77,7 +80,14 @@ $(document).ready(function() {
                     selectedOne();
                 }
             } else if (selectValue === '2') {
-                selectedTwo();
+                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
+                if (isEmptySearchInput) {
+                    alert("Please input a year");
+                    $(".loading").hide();
+                }
+                else {
+                    selectedTwo();
+                }
             } else if (selectValue === '3') {
                 let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
                 let isEmptySecSearchInput = (secondSearchInput.trim() === "") ? true: false;
@@ -117,6 +127,7 @@ $(document).ready(function() {
 function hideAll() {
     removePagination();
     $("#roll-up-results").hide();
+    $("#drill-down-results").hide();
     $("#dice-results").hide();
     $("#slice-results").hide();
 }
@@ -144,15 +155,26 @@ function selectedOne() {
 }
 
 function selectedTwo() {
-    // scrollTo(".loading");
-    // $.post('/secondQuery', resp => {
-    //     $("#universally-acclaimed").html(resp);
-    //     $("#universally-acclaimed").show();
-    //     $(".loading").hide();
-    //     $("#none-found").show();
-    //     $("#error-found").show();
-    //     scrollTo("#universally-acclaimed");
-    // });
+    scrollTo(".loading");
+    $.post('/drillDownQuery', { searchInput: searchInput, page: 1 }, resp => {
+        $("#drill-down-results").html(resp.partial);
+        $("#drill-down-results").show();
+        console.log(resp)
+
+        pagination = Math.ceil(resp.totalCount / itemsPerPage);
+        pageNum = 1;
+        pageStart = 1;
+        pageEnd = pagination > 5 ? 5 : pagination;
+
+        removePagination();
+        if (resp.totalCount > itemsPerPage)
+            setUpPagination(pagination, pageStart, pageEnd, pageNum);
+
+        $(".loading").hide();
+        $("#none-found").show();
+        $("#error-found").show();
+        scrollTo("#drill-down-results");
+    });
 }
 
 function selectedThree() {
@@ -256,6 +278,7 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
         if (pageNum + offset >= 1 && pageNum + offset <= pagination && offset != 0) {
             $(".loading").show();
             $("#roll-up-results").hide();
+            $("#drill-down-results").hide();
 
             if (selectValue === '1') {
                 $.post('/rollUpQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
@@ -278,6 +301,35 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
 
                     $("#roll-up-results").html(resp.partial);
                     $("#roll-up-results").show();
+
+                    updatePagination(pageStart, pageNum);
+
+                    $("#none-found").show();
+                    $("#error-found").show();
+                    $(".loading").hide();
+                    scrollTo("#character-job-actor");
+                });
+            } else if (selectValue === '2') {
+                $.post('/drillDownQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
+                    if (pageNum + offset >= 1 && pageNum + offset <= pagination) {
+
+                        if (offset > 0 && offset <= maxPageShiftR && pageNum + offset > (pageStart + pageEnd) / 2 ||
+                            offset < 0 && -1 * offset <= maxPageShiftL && pageNum + offset < (pageStart + pageEnd) / 2) {
+                            pageStart += offset;
+                            pageEnd += offset;
+                        } else if (offset > 0 && offset > maxPageShiftR) {
+                            pageStart += maxPageShiftR;
+                            pageEnd += maxPageShiftR;
+                        } else if (offset < 0 && -1 * offset > maxPageShiftL) {
+                            pageStart -= maxPageShiftL;
+                            pageEnd -= maxPageShiftL;
+                        }
+
+                    }
+                    pageNum += offset;
+
+                    $("#drill-down-results").html(resp.partial);
+                    $("#drill-down-results").show();
 
                     updatePagination(pageStart, pageNum);
 

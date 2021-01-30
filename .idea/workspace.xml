@@ -20,8 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b6a524d-bb2a-4acd-9ee3-7a9290303dd7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/views/_partials/drill_down_results.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/searchController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/searchController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/javascripts/checkQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/checkQuery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/searchRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/searchRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/home.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/home.hbs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +51,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -66,6 +71,8 @@
       <workItem from="1608980871697" duration="7914000" />
       <workItem from="1609073167076" duration="4704000" />
       <workItem from="1609745439982" duration="679000" />
+      <workItem from="1610548789751" duration="3000" />
+      <workItem from="1612005063755" duration="4454000" />
     </task>
     <servers />
   </component>
@@ -101,5 +108,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1608980826626" />
+    <state x="586" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612008334897">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="586" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1612008334897" />
   </component>
 </project>
