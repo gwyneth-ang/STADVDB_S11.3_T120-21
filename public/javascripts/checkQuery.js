@@ -116,15 +116,15 @@ $(document).ready(function() {
 
 function hideAll() {
     removePagination();
-    $("roll-up-results").hide();
-    $("dice-results").hide();
+    $("#roll-up-results").hide();
+    $("#dice-results").hide();
     $("#slice-results").hide();
 }
 
 function selectedOne() {
     scrollTo(".loading");
     $.post('/rollUpQuery', resp => {
-        $("#roll-up-results").html(resp.partial);
+        $("#roll-up-results").html(resp);
         $("#roll-up-results").show();
         $(".loading").hide();
         $("#none-found").show();
