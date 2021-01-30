@@ -1,0 +1,23 @@
+{{#if rollResult}}
+    <div class="container lists">
+        <div class="container input-list">
+            {{#each rollResult}}
+            <div class="row">
+                <div class="col-lg-9 text-left">
+                    <h2>{{year}}</h2>
+                </div>
+                <div class="col-lg-3 text-md-right text-left mt-lg-0 my-3">
+                    <h2>{{country}}</h2>
+                </div>
+                <div class="col-lg-3 text-md-right text-left mt-lg-0 my-3">
+                    <h2>{{genre}}</h2>
+                </div>
+            </div>
+            <div class="row text-left">
+                <h3>Average Score: {{AverageScore}}</h3>
+            </div>
+            <hr>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}

@@ -28,8 +28,9 @@ $(document).ready(function() {
         $("#search-box-2").removeAttr("list");
 
         selectValue = $("#drop-box").val();
-
-        if (selectValue === '3') {
+        if (selectValue === '1'){
+            $("#search-box").attr("placeholder", "Input year");
+        } else if (selectValue === '3') {
             // show second search box
             $("#search-box-2").show();
             $("#search-box").addClass("col-5");
@@ -67,7 +68,14 @@ $(document).ready(function() {
             $("#error-found").hide();
 
             if (selectValue === '1') {
-                selectedOne();
+                let isEmptySearchInput = (searchInput.trim() === "") ? true: false;
+                if (isEmptySearchInput) {
+                    alert("Please input a year");
+                    $(".loading").hide();
+                }
+                else {
+                    selectedOne();
+                }
             } else if (selectValue === '2') {
                 selectedTwo();
             } else if (selectValue === '3') {
@@ -108,20 +116,21 @@ $(document).ready(function() {
 
 function hideAll() {
     removePagination();
+    $("roll-up-results").hide();
     $("dice-results").hide();
     $("#slice-results").hide();
 }
 
 function selectedOne() {
-    // scrollTo(".loading");
-    // $.post('/firstQuery', { page: 1 }, resp => {
-    //     $("#english-movies").html(resp.partial);
-    //     $("#english-movies").show();
-    //     $(".loading").hide();
-    //     $("#none-found").show();
-    //     $("#error-found").show();
-    //     scrollTo("#english-movies");
-    // });
+    scrollTo(".loading");
+    $.post('/rollUpQuery', resp => {
+        $("#roll-up-results").html(resp.partial);
+        $("#roll-up-results").show();
+        $(".loading").hide();
+        $("#none-found").show();
+        $("#error-found").show();
+        scrollTo("#roll-up-results");
+    });
 }
 
 function selectedTwo() {
