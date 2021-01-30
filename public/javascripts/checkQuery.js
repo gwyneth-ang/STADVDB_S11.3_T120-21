@@ -307,7 +307,7 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
                     $("#none-found").show();
                     $("#error-found").show();
                     $(".loading").hide();
-                    scrollTo("#character-job-actor");
+                    scrollTo("#roll-up-results");
                 });
             } else if (selectValue === '2') {
                 $.post('/drillDownQuery', { searchInput: searchInput, page: pageNum + offset }, resp => {
@@ -336,7 +336,7 @@ function setUpPagination(pagination, pageStart, pageEnd, pageNum) {
                     $("#none-found").show();
                     $("#error-found").show();
                     $(".loading").hide();
-                    scrollTo("#character-job-actor");
+                    scrollTo("#drill-down-results");
                 });
             }
         }
