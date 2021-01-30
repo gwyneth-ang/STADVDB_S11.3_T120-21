@@ -83,10 +83,10 @@ const searchController = {
                 FROM F_MOVIE M, D_DATE D, D_GENRE G
                 WHERE M.genre_id = G.genre_id
                 AND M.date_id = D.date_id
-                AND YEAR(D.date_published) = ${searchInput}
+                AND YEAR(D.date_published) = '${searchInput}'
                 AND QUARTER(D.date_published)IS NOT NULL 
-                GROUP BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
-                ORDER BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
+                GROUP BY YEAR(D.date_published), QUARTER(D.date_published), G.genre
+                ORDER BY YEAR(D.date_published), QUARTER(D.date_published), G.genre
             ) T1`;
 
         db.query(countQuery, (err, count) => {
@@ -110,10 +110,10 @@ const searchController = {
                 FROM F_MOVIE M, D_DATE D, D_GENRE G
                 WHERE M.genre_id = G.genre_id
                 AND M.date_id = D.date_id
-                AND YEAR(D.date_published) = ${ searchInput }
+                AND YEAR(D.date_published) = '${searchInput}'
                 AND QUARTER(D.date_published) IS NOT NULL 
-                GROUP BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
-                ORDER BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
+                GROUP BY YEAR(D.date_published), QUARTER(D.date_published), G.genre
+                ORDER BY YEAR(D.date_published), QUARTER(D.date_published), G.genre
                 LIMIT    ${perPage}
                 OFFSET    ${(page - 1) * perPage};`;
 
