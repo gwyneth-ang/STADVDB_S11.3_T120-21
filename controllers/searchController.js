@@ -61,7 +61,7 @@ const searchController = {
                     });
                 }
 
-                return res.render('_partials/roll_up_results', { rollResult: result }, function(err, partial) {
+                return res.render('_partials/roll_up_results', { rollResult: result, year : searchInput}, function(err, partial) {
                     res.send({
                         partial,
                         totalCount
@@ -133,7 +133,7 @@ const searchController = {
                     });
                 }
 
-                return res.render('_partials/drill_down_results', { drillDownResult: result }, function(err, partial) {
+                return res.render('_partials/drill_down_results', { drillDownResult: result, year: searchInput }, function(err, partial) {
                     res.send({
                         partial,
                         totalCount
