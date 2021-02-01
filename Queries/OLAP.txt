@@ -1,0 +1,49 @@
+/* 
+   Sample queries for OLAP operations
+*/
+
+/*Roll-up Query*/
+SELECT D.year, C.country, G.genre,
+AVG(M.weighted_average_vote) as AverageScore
+FROM F_MOVIE as M, D_GENRE as G, D_DATE as D, D_COUNTRY as C
+WHERE D.year >= '2010' 
+AND M.genre_id = G.genre_id 
+AND M.date_id = D.date_id 
+AND M.country_id = C.country_id
+GROUP BY D.year, C.country, G.genre with ROLLUP;
+
+
+/*Drill-down Query*/
+SELECT YEAR(D.date_published) year, QUARTER(D.date_published) quarter, G.genre, COUNT(G.genre) number_of_movies
+FROM F_MOVIE M, D_DATE D, D_GENRE G
+WHERE M.genre_id = G.genre_id
+AND M.date_id = D.date_id
+AND YEAR(D.date_published) IS NOT NULL 
+AND QUARTER(D.date_published) IS NOT NULL 
+GROUP BY YEAR(d.date_published), QUARTER(d.date_published), G.genre
+ORDER BY YEAR(d.date_published), QUARTER(d.date_published), G.genre;
+
+
+/*Dice Query*/
+SELECT DISTINCT M.weighted_average_vote, D.year, T.title
+FROM F_MOVIE M, D_DATE D, D_TITLE T, D_COUNTRY C, D_GENRE G
+WHERE M.imdb_title_id = T.imdb_title_id
+AND M.date_id = D.date_id
+AND M.country_id = C.country_id
+AND M.genre_id = G.genre_id
+AND C.country LIKE '%USA%'
+AND G.genre LIKE '%horror%'
+ORDER BY M.weighted_average_vote DESC;
+
+
+
+/*Slice Query*/
+SELECT T.title, G.genre, D.year
+FROM F_MOVIE M, D_DATE D, D_TITLE T, D_COUNTRY C, D_GENRE G
+WHERE M.genre_id = G.genre_id
+AND M.date_id = D.date_id
+AND M.imdb_title_id = T.imdb_title_id
+AND M.country_id = C.country_id
+AND C.country ='USA'
+GROUP BY G.genre, D.year
+ORDER BY G.genre, D.year;
